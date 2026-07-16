@@ -1,29 +1,52 @@
 ---
 title: "Austin Yoo — Resume"
-summary: "Automation-first builder focused on data pipelines, AI integration, and long-horizon product thinking."
+summary: "Computational Data Sciences graduate building automated data pipelines and AI-integrated web platforms end to end."
 ---
 
 ## Summary
 
-Automation-first builder who designs data pipelines, integrates LLMs into production workflows, and ships full-stack platforms end to end. Comfortable owning a project from data source to deployed, revenue-generating product.
+Computational Data Sciences graduate with hands-on experience in warehouse and logistics operations, contract and database administration, and independent software development. Builds and maintains automated, production-grade data pipelines and web applications end-to-end, from data sourcing through deployment. Combines an operations background in international logistics and customs with practical skills in cloud infrastructure, backend automation, and applied AI.
 
-## Experience
+## Work Experience
 
-### Independent Builder — Automation & Data Platforms
-*Present*
+### Staff Intern — JCS Systems Inc., Georgia
+*Jun 2024 – Aug 2024*
 
-- Built and operate USGridExplorer, a U.S. power grid and data center tracking platform with a fully automated AI article pipeline (3 publishes/day).
-- Designed Daily365, a Python-orchestrated content pipeline chaining Claude, GPT, and Higgsfield AI to go from topic to published video in under 10 minutes.
-- Developing ImportRadar KR, a Korean trade regulation search platform combining government open data with AI summarization.
-- Building Grid Permit Alerts, a B2B permit-tracking service for commercial real estate brokers and investors in Northern Virginia data center markets.
+- Collaborated with senior staff at the Hyundai Glovis warehouse to optimize operational workflows.
+- Partnered with senior staff at the Hyundai Transys warehouse to enhance inventory management systems.
+- Checked stock statuses and reported on day-to-day requirements while ensuring stock quality.
+- Provided additional support during emergency situations, demonstrating commitment and teamwork.
+
+### General Manager, Database Manager — JNB Customs, South Korea
+*Sep 2023 – Jan 2024*
+
+- Recorded and structured documents by order priority.
+- Evaluated and reported on new project proposals, ensuring alignment with company objectives.
+- Administered contracts with alliance partners, ensuring compliance with terms and objectives.
+
+## Independent Projects
+
+### usgridexplorer.com — U.S. Power Grid & Data Center Infrastructure Platform
+*2025 – Present*
+
+- Built and operate a fully automated content and data platform tracking U.S. power grid capacity and data center development, monetized through display advertising.
+- Designed an end-to-end automated publishing pipeline generating AI-written research briefings, sourced from RSS feeds, stored in Supabase, and served via Vercel serverless functions on a GitHub Actions schedule.
+- Stack: React, Vite, Supabase (PostgreSQL), Vercel, GitHub Actions, Anthropic API.
+
+### CustomsMate KR — Korean Import/Export Regulation Search Platform
+*2025 – Present*
+
+- Building a search platform for Korean customs brokers and import/export businesses that aggregates open data from the Korea Customs Service, MFDS, and Ministry of Government Legislation.
+- Automated data ingestion via scheduled GitHub Actions jobs into Supabase, with AI-generated plain-Korean regulatory summaries surfaced through a React/Vite frontend.
+
+### Grid Permit Alerts — B2B Data Center Permit Tracking Service
+*2025 – Present*
+
+- Developing a subscription alert service tracking data center development permit filings across Northern Virginia for commercial real estate brokers, vendor business development teams, and investors.
+- Leverages usgridexplorer.com's existing audience as a built-in distribution and customer acquisition channel.
 
 ## Education
 
-*(Add education details here.)*
-
-## Core Strengths
-
-- End-to-end automation: from data ingestion to scheduled publishing, with GitHub Actions as the backbone.
-- Data pipeline design across public/open datasets (utility, customs, permit data).
-- Practical multi-LLM integration (Claude, GPT, Higgsfield) for production content and research workflows.
-- Long-term, research-driven perspective carried over from equity research into product and infrastructure decisions.
+**George Mason University**
+Bachelor of Science, Computational Data Sciences
+Minors: Business, Data Analysis

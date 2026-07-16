@@ -32,6 +32,11 @@ export default function Home() {
       />
 
       <section className="mx-auto max-w-5xl px-6 py-24 text-center">
+        <img
+          src="/austin-yoo.png"
+          alt="Austin Yoo"
+          className="mx-auto mb-6 h-32 w-32 rounded-full border-4 border-white object-cover shadow-md"
+        />
         <h1 className="text-4xl font-bold tracking-tight text-navy sm:text-5xl">
           Austin Yoo
         </h1>

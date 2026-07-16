@@ -10,6 +10,11 @@ export default function Contact() {
       />
 
       <section className="mx-auto max-w-2xl px-6 py-24 text-center">
+        <img
+          src="/austin-yoo.png"
+          alt="Austin Yoo"
+          className="mx-auto mb-6 h-24 w-24 rounded-full border-4 border-white object-cover shadow-md"
+        />
         <h1 className="text-3xl font-bold text-navy">Get in Touch</h1>
         <p className="mt-4 text-slate">
           Interested in collaborating, hiring, or just want to talk about
@@ -18,10 +23,10 @@ export default function Contact() {
 
         <div className="mt-10 flex flex-col items-center gap-4">
           <a
-            href="mailto:hello@austinyoo.com"
+            href="mailto:austinyooe@gmail.com"
             className="rounded-lg bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-smart-blue"
           >
-            hello@austinyoo.com
+            austinyooe@gmail.com
           </a>
           <div className="flex gap-6 text-sm font-medium text-slate">
             <a href="https://github.com/" target="_blank" rel="noreferrer" className="hover:text-smart-blue">

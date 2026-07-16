@@ -3,10 +3,10 @@
     "slug": "usgridexplorer",
     "name": "USGridExplorer",
     "url": "https://usgridexplorer.com",
-    "description": "U.S. power grid and data center infrastructure tracking platform, publishing AI-generated articles three times a day.",
-    "tech": ["React", "Supabase", "GitHub Actions", "Display Ads"],
+    "description": "Fully automated content and data platform tracking U.S. power grid capacity and data center development, monetized through display advertising.",
+    "tech": ["React", "Vite", "Supabase (PostgreSQL)", "Vercel", "GitHub Actions", "Anthropic API"],
     "status": "Live",
-    "highlight": "Automated daily article pipeline running in production"
+    "highlight": "AI-written research briefings sourced from RSS feeds, published on a GitHub Actions schedule"
   },
   {
     "slug": "daily365",
@@ -18,19 +18,19 @@
     "highlight": "100% automated, multi-LLM chaining"
   },
   {
-    "slug": "importradar-kr",
-    "name": "ImportRadar KR (수입레이더)",
+    "slug": "customsmate-kr",
+    "name": "CustomsMate KR",
     "url": null,
-    "description": "Korean import/export regulation search platform targeting customs brokers and importers.",
-    "tech": ["Korea Customs Service / MFDS open data", "Supabase", "React/Vite", "AI summarization"],
+    "description": "Search platform for Korean customs brokers and import/export businesses that aggregates open data from the Korea Customs Service, MFDS, and Ministry of Government Legislation.",
+    "tech": ["GitHub Actions", "Supabase", "React/Vite", "AI summarization"],
     "status": "In Development",
-    "highlight": "AI-summarized regulatory search for Korean trade"
+    "highlight": "AI-generated plain-Korean regulatory summaries"
   },
   {
     "slug": "grid-permit-alerts",
     "name": "Grid Permit Alerts",
     "url": null,
-    "description": "B2B service tracking data center development permits in Northern Virginia for CRE brokers and investors.",
+    "description": "Subscription alert service tracking data center development permit filings across Northern Virginia for commercial real estate brokers, vendor business development teams, and investors.",
     "tech": ["Permit data pipeline", "CRE targeting"],
     "status": "Launching Soon",
     "highlight": "Distribution via existing usgridexplorer.com audience"

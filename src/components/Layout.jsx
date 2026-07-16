@@ -45,7 +45,7 @@ function Footer() {
         </p>
         <div className="flex gap-5 text-sm">
           <a
-            href="mailto:hello@austinyoo.com"
+            href="mailto:austinyooe@gmail.com"
             className="hover:text-smart-blue"
           >
             Email

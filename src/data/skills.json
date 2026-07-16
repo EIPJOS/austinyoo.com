@@ -1,6 +1,5 @@
 {
-  "Core Stack": ["GitHub Actions", "Supabase", "React", "Vite", "Vercel", "Anthropic API"],
-  "Data & Automation": ["Python", "SQL", "GitHub Actions", "REST APIs"],
-  "LLM & AI": ["Claude", "GPT", "Higgsfield API"],
-  "Other": ["Tailwind CSS", "Korean (Fluent)", "Data Analysis", "Equity Research"]
+  "Technical": ["Python", "SQL", "JavaScript/TypeScript", "React", "Vite", "Node.js", "GitHub Actions", "Supabase (PostgreSQL)", "Vercel", "REST APIs", "Anthropic/OpenAI API", "Data Pipeline Design", "Excel/Data Analysis"],
+  "Operations": ["Inventory Management", "Warehouse Workflow Optimization", "Customs & Trade Documentation", "Contract Administration", "Vendor & Alliance Coordination", "Quality Control Reporting"],
+  "Languages": ["English (Fluent)", "Korean (Fluent)"]
 }
