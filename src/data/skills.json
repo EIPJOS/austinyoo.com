@@ -1,0 +1,6 @@
+{
+  "Core Stack": ["GitHub Actions", "Supabase", "React", "Vite", "Vercel", "Anthropic API"],
+  "Data & Automation": ["Python", "SQL", "GitHub Actions", "REST APIs"],
+  "LLM & AI": ["Claude", "GPT", "Higgsfield API"],
+  "Other": ["Tailwind CSS", "Korean (Fluent)", "Data Analysis", "Equity Research"]
+}

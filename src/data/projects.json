@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "usgridexplorer",
+    "name": "USGridExplorer",
+    "url": "https://usgridexplorer.com",
+    "description": "U.S. power grid and data center infrastructure tracking platform, publishing AI-generated articles three times a day.",
+    "tech": ["React", "Supabase", "GitHub Actions", "Display Ads"],
+    "status": "Live",
+    "highlight": "Automated daily article pipeline running in production"
+  },
+  {
+    "slug": "daily365",
+    "name": "Daily365 AI Content Pipeline",
+    "url": null,
+    "description": "Automated content factory that turns a topic into a published video in under 10 minutes.",
+    "tech": ["Python Orchestration", "Claude API", "GPT", "Higgsfield AI"],
+    "status": "Live",
+    "highlight": "100% automated, multi-LLM chaining"
+  },
+  {
+    "slug": "importradar-kr",
+    "name": "ImportRadar KR (수입레이더)",
+    "url": null,
+    "description": "Korean import/export regulation search platform targeting customs brokers and importers.",
+    "tech": ["Korea Customs Service / MFDS open data", "Supabase", "React/Vite", "AI summarization"],
+    "status": "In Development",
+    "highlight": "AI-summarized regulatory search for Korean trade"
+  },
+  {
+    "slug": "grid-permit-alerts",
+    "name": "Grid Permit Alerts",
+    "url": null,
+    "description": "B2B service tracking data center development permits in Northern Virginia for CRE brokers and investors.",
+    "tech": ["Permit data pipeline", "CRE targeting"],
+    "status": "Launching Soon",
+    "highlight": "Distribution via existing usgridexplorer.com audience"
+  }
+]
