@@ -5,7 +5,9 @@ const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;
 
 export default function Seo({ title, description, path = '/', jsonLd }) {
   const url = `${SITE_URL}${path}`;
-  const fullTitle = title ? `${title} | Austin Yoo` : 'Austin Yoo — Automation-First Builder';
+  const fullTitle = title
+    ? `${title} | Austin Yoo`
+    : 'Austin Yoo — BI Analyst, Automation Developer, Full-Stack Developer';
 
   return (
     <Helmet>

@@ -19,14 +19,14 @@ export default function Home() {
     <>
       <Seo
         title="Home"
-        description="Austin Yoo is an automation-first builder shipping data pipelines, AI content systems, and full-stack platforms."
+        description="Austin Yoo is a BI Analyst, Automation Developer, and Full-Stack Developer turning business data into automated pipelines and production-grade web platforms."
         path="/"
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'Person',
           name: 'Austin Yoo',
           url: 'https://austinyoo.com',
-          jobTitle: 'Automation-First Builder',
+          jobTitle: 'BI Analyst, Automation Developer, Full-Stack Developer',
           knowsAbout: ['React', 'Supabase', 'GitHub Actions', 'Anthropic API', 'Python'],
         }}
       />
@@ -40,11 +40,14 @@ export default function Home() {
         <h1 className="text-4xl font-bold tracking-tight text-navy sm:text-5xl">
           Austin Yoo
         </h1>
-        <p className="mt-3 font-mono text-smart-blue">Automation-First Builder</p>
+        <p className="mt-3 font-mono text-smart-blue">
+          BI Analyst, Automation Developer, Full-Stack Developer
+        </p>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-slate">
-          I design and ship automated data pipelines, AI-driven content systems,
-          and full-stack web platforms — from raw data source to a live,
-          revenue-generating product.
+          I turn business data into clear, actionable insight, automate the
+          workflows that keep it flowing, and build the full-stack platforms
+          that put it in front of the people who need it — end to end, from
+          data source to production.
         </p>
         <div className="mt-8 flex justify-center gap-4">
           <Link
