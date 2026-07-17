@@ -3,15 +3,6 @@ import Seo from '../components/Seo.jsx';
 import ProjectCard from '../components/ProjectCard.jsx';
 import projects from '../data/projects.json';
 
-const techBadges = [
-  'GitHub Actions',
-  'Supabase',
-  'React',
-  'Vite',
-  'Vercel',
-  'Anthropic API',
-];
-
 export default function Home() {
   const featured = projects.slice(0, 3);
 
@@ -62,17 +53,6 @@ export default function Home() {
           >
             Explore Projects
           </Link>
-        </div>
-
-        <div className="mt-14 flex flex-wrap justify-center gap-3">
-          {techBadges.map((t) => (
-            <span
-              key={t}
-              className="rounded-full border border-slate/20 bg-white px-4 py-1.5 font-mono text-xs text-slate"
-            >
-              {t}
-            </span>
-          ))}
         </div>
       </section>
 
