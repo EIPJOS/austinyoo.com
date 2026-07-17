@@ -14,13 +14,13 @@
     "url": null,
     "description": "Automated content factory that turns a topic into a published video in under 10 minutes.",
     "tech": ["Python Orchestration", "Claude API", "GPT", "Higgsfield AI"],
-    "status": "Live",
+    "status": "In Development",
     "highlight": "100% automated, multi-LLM chaining"
   },
   {
     "slug": "customsmate-kr",
     "name": "CustomsMate KR",
-    "url": null,
+    "url": "https://customs-mate.vercel.app/",
     "description": "Search platform for Korean customs brokers and import/export businesses that aggregates open data from the Korea Customs Service, MFDS, and Ministry of Government Legislation.",
     "tech": ["GitHub Actions", "Supabase", "React/Vite", "AI summarization"],
     "status": "In Development",
