@@ -51,15 +51,7 @@ function Footer() {
             Email
           </a>
           <a
-            href="https://github.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="hover:text-smart-blue"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://www.linkedin.com/"
+            href="https://www.linkedin.com/in/austin-yoo-fbm1999/"
             target="_blank"
             rel="noreferrer"
             className="hover:text-smart-blue"

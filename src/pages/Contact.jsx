@@ -5,7 +5,7 @@ export default function Contact() {
     <>
       <Seo
         title="Contact"
-        description="Get in touch with Austin Yoo — email, GitHub, and LinkedIn."
+        description="Get in touch with Austin Yoo — email and LinkedIn."
         path="/contact"
       />
 
@@ -29,10 +29,7 @@ export default function Contact() {
             austinyooe@gmail.com
           </a>
           <div className="flex gap-6 text-sm font-medium text-slate">
-            <a href="https://github.com/" target="_blank" rel="noreferrer" className="hover:text-smart-blue">
-              GitHub
-            </a>
-            <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" className="hover:text-smart-blue">
+            <a href="https://www.linkedin.com/in/austin-yoo-fbm1999/" target="_blank" rel="noreferrer" className="hover:text-smart-blue">
               LinkedIn
             </a>
           </div>
