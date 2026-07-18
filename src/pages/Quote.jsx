@@ -39,6 +39,26 @@ const tiers = [
 
 const initialForm = { name: '', email: '', service: '', message: '', company: '' };
 
+function smoothScrollTo(el, duration = 1600) {
+  const startY = window.scrollY;
+  const targetY = startY + el.getBoundingClientRect().top;
+  const distance = targetY - startY;
+  const startTime = performance.now();
+
+  function easeInOutQuad(t) {
+    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  }
+
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo({ top: startY + distance * easeInOutQuad(progress), behavior: 'auto' });
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
 function QuoteForm() {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
@@ -202,7 +222,7 @@ export default function Quote() {
     if (location.hash) {
       const timer = setTimeout(() => {
         const el = document.querySelector(location.hash);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        if (el) smoothScrollTo(el);
       }, 1000);
       return () => clearTimeout(timer);
     }
@@ -233,6 +253,11 @@ export default function Quote() {
           </div>
           <a
             href="#request-quote"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.getElementById('request-quote');
+              if (el) smoothScrollTo(el);
+            }}
             className="mt-6 inline-block rounded-lg bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-smart-blue"
           >
             Request a Quote ↓
