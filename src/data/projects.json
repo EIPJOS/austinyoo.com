@@ -29,10 +29,10 @@
   {
     "slug": "grid-permit-alerts",
     "name": "Grid Permit Alerts",
-    "url": null,
+    "url": "https://usgridexplorer.com/data-center-permits/",
     "description": "Subscription alert service tracking data center development permit filings across Northern Virginia for commercial real estate brokers, vendor business development teams, and investors.",
     "tech": ["Permit data pipeline", "CRE targeting"],
-    "status": "Launching Soon",
+    "status": "Live",
     "highlight": "Distribution via existing usgridexplorer.com audience"
   }
 ]
