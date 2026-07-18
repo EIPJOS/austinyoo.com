@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 
 const tiers = [
@@ -98,12 +99,12 @@ export default function Quote() {
         </div>
 
         <div className="mt-14 text-center">
-          <a
-            href="mailto:austinyooe@gmail.com?subject=Website%20Quote%20Request"
+          <Link
+            to="/contact"
             className="inline-block rounded-lg bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-smart-blue"
           >
             Get a Quote
-          </a>
+          </Link>
           <p className="mt-3 text-sm text-slate">
             Tell me a bit about your project and I'll follow up.
           </p>
