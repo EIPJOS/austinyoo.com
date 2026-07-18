@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const TO_EMAIL = 'austinyooe@gmail.com';
+const TO_EMAIL = 'eipjos1999@gmail.com';
 const FROM_EMAIL = 'Austin Yoo Website <onboarding@resend.dev>';
 
 export default async function handler(req, res) {
