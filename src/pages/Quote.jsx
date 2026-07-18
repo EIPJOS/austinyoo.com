@@ -200,8 +200,11 @@ export default function Quote() {
 
   useEffect(() => {
     if (location.hash) {
-      const el = document.querySelector(location.hash);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      const timer = setTimeout(() => {
+        const el = document.querySelector(location.hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [location]);
 
