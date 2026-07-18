@@ -41,7 +41,9 @@ const initialForm = { name: '', email: '', service: '', message: '', company: ''
 
 function smoothScrollTo(el, duration = 1600) {
   const startY = window.scrollY;
-  const targetY = startY + el.getBoundingClientRect().top;
+  const rect = el.getBoundingClientRect();
+  const elCenter = rect.top + rect.height / 2;
+  const targetY = startY + elCenter - window.innerHeight / 2;
   const distance = targetY - startY;
   const startTime = performance.now();
 
