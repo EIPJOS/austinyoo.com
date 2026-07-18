@@ -12,9 +12,13 @@ const tiers = [
       'Deployed on Vercel with custom domain setup',
       'Source code delivered — no lock-in',
     ],
+    example: {
+      label: 'See it in action: JNB Global',
+      url: 'https://www.jnbglobal.kr/en',
+    },
   },
   {
-    name: 'API-Connected Database',
+    name: 'API-Connected Tool Websites',
     price: '$10',
     period: '/ month',
     description: 'Ongoing hosting for a site backed by a live, automatically updating database — like CustomsMate KR.',
@@ -26,7 +30,7 @@ const tiers = [
     ],
     example: {
       label: 'See it in action: CustomsMate KR',
-      url: 'https://customs-mate.vercel.app/',
+      url: 'https://customs-mate.vercel.app/en',
     },
   },
 ];
@@ -46,6 +50,12 @@ export default function Quote() {
           <p className="mx-auto mt-4 max-w-xl text-slate">
             Simple, transparent pricing for websites and the automated data
             infrastructure behind them.
+          </p>
+          <p className="mx-auto mt-4 max-w-xl text-slate">
+            A professional website is one of the highest-leverage investments
+            a business can make — it builds trust with new customers, shows
+            up when people search for you, and turns visitors into leads and
+            sales around the clock, not just during business hours.
           </p>
         </div>
 
