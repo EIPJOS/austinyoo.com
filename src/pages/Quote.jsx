@@ -5,12 +5,12 @@ const tiers = [
     name: 'Website Build',
     price: '$399',
     period: 'one-time',
-    description: 'A custom-designed, responsive website built and deployed for you.',
+    description: 'Turn visitors into customers with a professional custom website, supports multiple languages, and sends quote requests directly to your inbox.',
     features: [
-      'Custom-designed, responsive site (React/Vite)',
+      'Custom-designed, Email responsive site',
       'SEO-ready metadata & structured data',
-      'Deployed on Vercel with custom domain setup',
-      'Source code delivered — no lock-in',
+      'Custom domain setup',
+      'Source code delivered',
     ],
     example: {
       label: 'See it in action: JNB Global',
@@ -21,7 +21,7 @@ const tiers = [
     name: 'API-Connected Tool Websites',
     price: '$10',
     period: '/ month',
-    description: 'Ongoing hosting for a site backed by a live, automatically updating database — like CustomsMate KR.',
+    description: 'Keep your website running with live open data from Gov or media, automated updates, and connected business tools. All hosted and maintained for you.',
     features: [
       'Supabase-backed database for dynamic content',
       'Automated data pipelines (scheduled jobs)',
@@ -51,12 +51,14 @@ export default function Quote() {
             Simple, transparent pricing for websites and the automated data
             infrastructure behind them.
           </p>
-          <p className="mx-auto mt-4 max-w-xl text-slate">
-            A professional website is one of the highest-leverage investments
-            a business can make — it builds trust with new customers, shows
-            up when people search for you, and turns visitors into leads and
-            sales around the clock, not just during business hours.
-          </p>
+          <div className="mx-auto mt-6 max-w-xl rounded-lg border border-smart-blue/20 bg-smart-blue/5 px-5 py-4">
+            <p className="text-sm text-slate">
+              A professional website is one of the highest-leverage investments
+              a business can make — it builds trust with new customers, shows
+              up when people search for you, and turns visitors into leads and
+              sales around the clock, not just during business hours.
+            </p>
+          </div>
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
