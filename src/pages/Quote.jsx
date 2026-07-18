@@ -210,9 +210,6 @@ function QuoteForm() {
       >
         {status === 'sending' ? 'Sending…' : 'Request Free Quote →'}
       </button>
-      <p className="mt-3 text-center text-xs text-slate">
-        I'll follow up within 1 business day.
-      </p>
     </form>
   );
 }
