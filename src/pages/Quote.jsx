@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 
 const tiers = [
@@ -195,6 +196,15 @@ function QuoteForm() {
 }
 
 export default function Quote() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.querySelector(location.hash);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [location]);
+
   return (
     <>
       <Seo
@@ -218,6 +228,12 @@ export default function Quote() {
               sales around the clock, not just during business hours.
             </p>
           </div>
+          <a
+            href="#request-quote"
+            className="mt-6 inline-block rounded-lg bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-smart-blue"
+          >
+            Request a Quote ↓
+          </a>
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
@@ -256,7 +272,7 @@ export default function Quote() {
           ))}
         </div>
 
-        <div className="mx-auto mt-14 max-w-xl">
+        <div id="request-quote" className="mx-auto mt-14 max-w-xl scroll-mt-24">
           <QuoteForm />
         </div>
       </section>

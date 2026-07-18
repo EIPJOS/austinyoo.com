@@ -40,7 +40,7 @@ export default function Home() {
           that put it in front of the people who need it — end to end, from
           data source to production.
         </p>
-        <div className="mt-8 flex justify-center gap-4">
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link
             to="/resume"
             className="rounded-lg bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-smart-blue"
@@ -52,6 +52,12 @@ export default function Home() {
             className="rounded-lg border border-navy px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:border-smart-blue hover:text-smart-blue"
           >
             Explore Projects
+          </Link>
+          <Link
+            to="/quote#request-quote"
+            className="rounded-lg border border-navy px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:border-smart-blue hover:text-smart-blue"
+          >
+            Request a Quote
           </Link>
         </div>
       </section>
