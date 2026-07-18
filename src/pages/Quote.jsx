@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import Seo from '../components/Seo.jsx';
 
 const tiers = [
@@ -36,12 +36,170 @@ const tiers = [
   },
 ];
 
+const initialForm = { name: '', email: '', service: '', message: '', company: '' };
+
+function QuoteForm() {
+  const [form, setForm] = useState(initialForm);
+  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [errorMessage, setErrorMessage] = useState('');
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus('sending');
+    setErrorMessage('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Something went wrong.');
+      }
+
+      setStatus('sent');
+      setForm(initialForm);
+    } catch (err) {
+      setStatus('error');
+      setErrorMessage(err.message || 'Something went wrong. Please try again.');
+    }
+  }
+
+  if (status === 'sent') {
+    return (
+      <div className="rounded-xl border border-smart-blue/20 bg-smart-blue/5 px-6 py-10 text-center text-navy">
+        <p className="font-semibold">Quote request sent — thanks!</p>
+        <p className="mt-2 text-sm text-slate">I'll review your details and follow up within 1 business day.</p>
+        <button
+          type="button"
+          onClick={() => setStatus('idle')}
+          className="mt-4 text-sm font-medium text-smart-blue hover:underline"
+        >
+          Send another request
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-xl border border-slate/10 bg-white p-8 shadow-sm"
+    >
+      <h2 className="text-lg font-semibold text-navy">Request a Free Quote</h2>
+      <p className="mt-1 text-sm text-slate">
+        Share a few details and I'll follow up within 1 business day.
+      </p>
+
+      {/* Honeypot field — hidden from real users, filled by bots */}
+      <input
+        type="text"
+        name="company"
+        value={form.company}
+        onChange={handleChange}
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden="true"
+      />
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-navy">
+            Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            value={form.name}
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-slate/20 px-3 py-2 text-sm focus:border-smart-blue focus:outline-none"
+          />
+        </div>
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-navy">
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            value={form.email}
+            onChange={handleChange}
+            className="mt-1 w-full rounded-lg border border-slate/20 px-3 py-2 text-sm focus:border-smart-blue focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <label htmlFor="service" className="block text-sm font-medium text-navy">
+          Interested In
+        </label>
+        <select
+          id="service"
+          name="service"
+          value={form.service}
+          onChange={handleChange}
+          className="mt-1 w-full rounded-lg border border-slate/20 bg-white px-3 py-2 text-sm focus:border-smart-blue focus:outline-none"
+        >
+          <option value="">Not sure yet</option>
+          <option value="Website Build">Website Build ($399 one-time)</option>
+          <option value="API-Connected Tool Websites">API-Connected Tool Websites ($10/mo)</option>
+          <option value="Both">Both</option>
+        </select>
+      </div>
+
+      <div className="mt-4">
+        <label htmlFor="message" className="block text-sm font-medium text-navy">
+          Project Details <span className="text-red-500">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows={4}
+          placeholder="e.g. what your business does, what you want the site to do, any deadlines"
+          value={form.message}
+          onChange={handleChange}
+          className="mt-1 w-full rounded-lg border border-slate/20 px-3 py-2 text-sm focus:border-smart-blue focus:outline-none"
+        />
+      </div>
+
+      {status === 'error' && (
+        <p className="mt-4 text-sm text-red-600">{errorMessage}</p>
+      )}
+
+      <button
+        type="submit"
+        disabled={status === 'sending'}
+        className="mt-6 w-full rounded-lg bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-smart-blue disabled:opacity-60"
+      >
+        {status === 'sending' ? 'Sending…' : 'Request Free Quote →'}
+      </button>
+      <p className="mt-3 text-center text-xs text-slate">
+        I'll follow up within 1 business day.
+      </p>
+    </form>
+  );
+}
+
 export default function Quote() {
   return (
     <>
       <Seo
         title="Quote"
-        description="Pricing for website builds and API-connected database hosting by Austin Yoo."
+        description="Pricing for website builds and API-connected database hosting by Austin Yoo. Request a free quote."
         path="/quote"
       />
 
@@ -98,16 +256,8 @@ export default function Quote() {
           ))}
         </div>
 
-        <div className="mt-14 text-center">
-          <Link
-            to="/contact"
-            className="inline-block rounded-lg bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-smart-blue"
-          >
-            Get a Quote
-          </Link>
-          <p className="mt-3 text-sm text-slate">
-            Tell me a bit about your project and I'll follow up.
-          </p>
+        <div className="mx-auto mt-14 max-w-xl">
+          <QuoteForm />
         </div>
       </section>
     </>
