@@ -20,7 +20,7 @@
   {
     "slug": "customsmate-kr",
     "name": "CustomsMate KR",
-    "url": "https://customs-mate.vercel.app/",
+    "url": "https://customs-mate.vercel.app/en",
     "description": "Search platform for Korean customs brokers and import/export businesses that aggregates open data from the Korea Customs Service, MFDS, and Ministry of Government Legislation.",
     "tech": ["GitHub Actions", "Supabase", "React/Vite", "AI summarization"],
     "status": "Live",
