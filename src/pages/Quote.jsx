@@ -37,6 +37,24 @@ const tiers = [
   },
 ];
 
+const proofPoints = [
+  {
+    stat: '3',
+    label: 'Live platforms in production',
+    detail: 'USGridExplorer, CustomsMate KR, and Grid Permit Alerts are all shipped and running today.',
+  },
+  {
+    stat: '3×/day',
+    label: 'Fully automated publishing',
+    detail: 'USGridExplorer generates and publishes AI-written briefings on a GitHub Actions schedule — no manual work.',
+  },
+  {
+    stat: 'Live',
+    label: 'Real-time government data',
+    detail: 'CustomsMate KR pulls directly from the Korea Customs Service, MFDS, and Ministry of Government Legislation.',
+  },
+];
+
 const initialForm = { name: '', email: '', service: '', message: '', company: '' };
 
 function smoothScrollTo(el, duration = 1600) {
@@ -261,6 +279,24 @@ export default function Quote() {
           >
             Request a Quote ↓
           </a>
+        </div>
+
+        <div className="mt-12">
+          <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-slate">
+            Proven in Production
+          </h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+            {proofPoints.map((p) => (
+              <div
+                key={p.label}
+                className="rounded-xl border border-slate/10 bg-white p-6 text-center"
+              >
+                <p className="text-3xl font-bold text-navy">{p.stat}</p>
+                <p className="mt-2 text-sm font-semibold text-navy">{p.label}</p>
+                <p className="mt-2 text-sm text-slate">{p.detail}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
