@@ -39,7 +39,6 @@ export default function Projects() {
           <h2 className="text-xl font-semibold text-navy">Other Projects</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-slate">
             <li>Fable modding — game modification and tooling</li>
-            <li>Family business Wix website build</li>
           </ul>
         </div>
       </section>
