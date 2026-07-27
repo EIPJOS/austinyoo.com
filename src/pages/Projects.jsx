@@ -7,7 +7,7 @@ export default function Projects() {
     <>
       <Seo
         title="Projects"
-        description="A collection of automation, data pipeline, and AI-driven products built by Austin Yoo, including USGridExplorer, Daily365, and ImportRadar KR."
+        description="A collection of automation, data pipeline, and AI-driven products built by Austin Yoo, including USGridExplorer, JNB Global Customs, and CustomsMate KR."
         path="/projects"
         jsonLd={{
           '@context': 'https://schema.org',
