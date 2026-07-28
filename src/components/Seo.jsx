@@ -10,7 +10,7 @@ export default function Seo({ title, description, path = '/', jsonLd }) {
     : 'Austin Yoo — BI Analyst, Automation Developer, Full-Stack Developer';
 
   return (
-    <Helmet>
+    <Helmet defer={false}>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
