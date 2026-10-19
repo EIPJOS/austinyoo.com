@@ -1,0 +1,95 @@
+.loan-calc {
+  --bg: #ffffff;
+  --text-primary: #1f1e1d;
+  --text-secondary: #5f5e5a;
+  --text-muted: #888780;
+  --surface-1: #f5f4ef;
+  --border: rgba(0, 0, 0, 0.15);
+  --text-danger: #a32d2d;
+  --text-success: #3b6d11;
+  --radius: 8px;
+  --gray-fill: #f1efe8;
+  --gray-stroke: #5f5e5a;
+  --gray-title: #444441;
+  --gray-sub: #5f5e5a;
+  --purple-fill: #eeedfe;
+  --purple-stroke: #534ab7;
+  --purple-title: #3c3489;
+  --purple-sub: #534ab7;
+  --teal-fill: #e1f5ee;
+  --teal-stroke: #0f6e56;
+  --teal-title: #085041;
+  --teal-sub: #0f6e56;
+
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic',
+    'Noto Sans KR', sans-serif;
+  line-height: 1.6;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.loan-calc svg .th { font-size: 14px; font-weight: 500; }
+.loan-calc svg .ts { font-size: 12px; }
+.loan-calc svg .c-gray rect { fill: var(--gray-fill); stroke: var(--gray-stroke); }
+.loan-calc svg .c-gray .th { fill: var(--gray-title); }
+.loan-calc svg .c-gray .ts { fill: var(--gray-sub); }
+.loan-calc svg .c-purple rect { fill: var(--purple-fill); stroke: var(--purple-stroke); }
+.loan-calc svg .c-purple .th { fill: var(--purple-title); }
+.loan-calc svg .c-purple .ts { fill: var(--purple-sub); }
+.loan-calc svg .c-teal rect { fill: var(--teal-fill); stroke: var(--teal-stroke); }
+.loan-calc svg .c-teal .th { fill: var(--teal-title); }
+.loan-calc svg .c-teal .ts { fill: var(--teal-sub); }
+.loan-calc svg .arr { stroke: var(--text-secondary); stroke-width: 1.5; fill: none; }
+
+.loan-calc input[type='range'] { accent-color: #534ab7; }
+.loan-calc select {
+  font: inherit;
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+.loan-calc .row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.loan-calc .row label { min-width: 110px; }
+.loan-calc .row input { flex: 1; min-width: 0; }
+.loan-calc .row span {
+  min-width: 64px;
+  text-align: right;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.loan-calc .mc {
+  background: var(--surface-1);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.loan-calc .mc p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+.loan-calc .mc b { font-size: 22px; font-weight: 500; color: var(--text-primary); }
+
+.loan-calc .bar {
+  display: flex;
+  height: 34px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 12px;
+}
+.loan-calc .bar div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+}

@@ -4,6 +4,7 @@ const navItems = [
   { to: '/', label: 'Home' },
   { to: '/projects', label: 'Projects' },
   { to: '/resume', label: 'Resume' },
+  { to: '/tools', label: 'Tools' },
   { to: '/quote', label: 'Quote' },
   { to: '/contact', label: 'Contact' },
 ];
@@ -11,11 +12,11 @@ const navItems = [
 function NavBar() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate/10 bg-light-bg/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+      <nav className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-6 py-4">
         <NavLink to="/" className="font-mono text-lg font-semibold text-navy">
           Austin Yoo
         </NavLink>
-        <ul className="flex gap-6 text-sm font-medium">
+        <ul className="flex flex-wrap gap-x-3 gap-y-1 text-[13px] font-medium sm:gap-x-6 sm:text-sm">
           {navItems.map((item) => (
             <li key={item.to}>
               <NavLink
