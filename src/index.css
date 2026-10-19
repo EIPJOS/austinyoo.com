@@ -9,3 +9,9 @@ html {
 body {
   @apply bg-light-bg text-navy antialiased;
 }
+
+/* Korean: break lines at spaces instead of mid-word; still wrap very long tokens (URLs, code). */
+html:lang(ko) body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}

@@ -11,18 +11,25 @@ const Quote = lazy(() => import('./pages/Quote.jsx'));
 const Contact = lazy(() => import('./pages/Contact.jsx'));
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
+// The same pages are mounted twice: at "/" (English) and under "/ko" (Korean).
+// Each page reads the language from the URL (see src/i18n).
+const pageRoutes = () => [
+  <Route key="home" index element={<Home />} />,
+  <Route key="projects" path="projects" element={<Projects />} />,
+  <Route key="resume" path="resume" element={<Resume />} />,
+  <Route key="tools" path="tools" element={<Tools />} />,
+  <Route key="quote" path="quote" element={<Quote />} />,
+  <Route key="contact" path="contact" element={<Contact />} />,
+  <Route key="notfound" path="*" element={<NotFound />} />,
+];
+
 export default function App() {
   return (
     <Layout>
       <Suspense fallback={<div className="py-24 text-center text-slate">Loading…</div>}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="/tools" element={<Tools />} />
-          <Route path="/quote" element={<Quote />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/">{pageRoutes()}</Route>
+          <Route path="/ko">{pageRoutes()}</Route>
         </Routes>
       </Suspense>
       <Analytics />

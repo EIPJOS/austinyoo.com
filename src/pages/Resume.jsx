@@ -2,16 +2,42 @@ import { useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Seo from '../components/Seo.jsx';
-import skills from '../data/skills.json';
-import resumeRaw from '../data/resume.md?raw';
+import skillsEn from '../data/skills.json';
+import skillsKo from '../data/skills.ko.json';
+import resumeEn from '../data/resume.md?raw';
+import resumeKo from '../data/resume.ko.md?raw';
+import { useLang } from '../i18n/index.js';
+
+const copy = {
+  en: {
+    seoTitle: 'Resume',
+    seoDescription:
+      "Austin Yoo's resume: experience in automation, data pipelines, and AI integration, plus core technical skills.",
+    fallbackTitle: 'Resume',
+    download: 'Download PDF',
+  },
+  ko: {
+    seoTitle: '이력서',
+    seoDescription:
+      'Austin Yoo의 이력서: 자동화, 데이터 파이프라인, AI 연동 경험과 핵심 기술 역량.',
+    fallbackTitle: '이력서',
+    // The PDF is the English resume; say so rather than imply a Korean file.
+    download: 'PDF 다운로드 (영문)',
+  },
+};
+
+const content = {
+  en: { raw: resumeEn, skills: skillsEn },
+  ko: { raw: resumeKo, skills: skillsKo },
+};
 
 function parseFrontmatter(raw) {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) return { data: {}, body: raw };
 
   const [, fmBlock, body] = match;
   const data = {};
-  fmBlock.split('\n').forEach((line) => {
+  fmBlock.split(/\r?\n/).forEach((line) => {
     const idx = line.indexOf(':');
     if (idx === -1) return;
     const key = line.slice(0, idx).trim();
@@ -22,24 +48,20 @@ function parseFrontmatter(raw) {
 }
 
 export default function Resume() {
-  const { data: frontmatter, body: content } = useMemo(
-    () => parseFrontmatter(resumeRaw),
-    []
-  );
+  const lang = useLang();
+  const t = copy[lang];
+  const { raw, skills } = content[lang];
+  const { data: frontmatter, body } = useMemo(() => parseFrontmatter(raw), [raw]);
 
   return (
     <>
-      <Seo
-        title="Resume"
-        description="Austin Yoo's resume: experience in automation, data pipelines, and AI integration, plus core technical skills."
-        path="/resume"
-      />
+      <Seo title={t.seoTitle} description={t.seoDescription} path="/resume" />
 
       <section className="mx-auto max-w-4xl px-6 py-20">
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-navy">
-              {frontmatter.title || 'Resume'}
+              {frontmatter.title || t.fallbackTitle}
             </h1>
             {frontmatter.summary && (
               <p className="mt-2 max-w-xl text-slate">{frontmatter.summary}</p>
@@ -50,7 +72,7 @@ export default function Resume() {
             download
             className="whitespace-nowrap rounded-lg bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-smart-blue"
           >
-            Download PDF
+            {t.download}
           </a>
         </div>
 
@@ -78,7 +100,7 @@ export default function Resume() {
         </div>
 
         <article className="prose prose-slate max-w-none prose-headings:text-navy prose-a:text-smart-blue">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
         </article>
       </section>
     </>

@@ -1,9 +1,46 @@
 import { useState } from 'react';
 import Seo from '../components/Seo.jsx';
+import { useLang } from '../i18n/index.js';
+
+const copy = {
+  en: {
+    seoTitle: 'Contact',
+    seoDescription: 'Get in touch with Austin Yoo — send a message directly or connect on LinkedIn.',
+    title: 'Get in Touch',
+    intro: 'Interested in collaborating, hiring, or just want to talk about automation and data pipelines? Send a message below.',
+    sentTitle: 'Message sent — thanks for reaching out!',
+    sentBody: "I'll get back to you soon.",
+    sendAnother: 'Send another message',
+    name: 'Name',
+    email: 'Email',
+    message: 'Message',
+    sending: 'Sending…',
+    send: 'Send Message',
+    errorGeneric: 'Something went wrong. Please try again.',
+    useServerError: true,
+  },
+  ko: {
+    seoTitle: '문의',
+    seoDescription: 'Austin Yoo에게 바로 메시지를 보내거나 LinkedIn으로 연락해 보세요.',
+    title: '문의하기',
+    intro: '협업, 채용, 또는 자동화와 데이터 파이프라인에 대해 이야기하고 싶으신가요? 아래에 메시지를 남겨 주세요.',
+    sentTitle: '메시지가 전송되었습니다. 연락 주셔서 감사합니다!',
+    sentBody: '곧 답변드리겠습니다.',
+    sendAnother: '다른 메시지 보내기',
+    name: '이름',
+    email: '이메일',
+    message: '메시지',
+    sending: '전송 중…',
+    send: '메시지 보내기',
+    errorGeneric: '전송 중 문제가 발생했어요. 잠시 후 다시 시도해 주세요.',
+    useServerError: false,
+  },
+};
 
 const initialForm = { name: '', email: '', message: '', company: '' };
 
 export default function Contact() {
+  const t = copy[useLang()];
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
   const [errorMessage, setErrorMessage] = useState('');
@@ -27,22 +64,23 @@ export default function Contact() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || 'Something went wrong.');
+        throw new Error(data.error || t.errorGeneric);
       }
 
       setStatus('sent');
       setForm(initialForm);
     } catch (err) {
       setStatus('error');
-      setErrorMessage(err.message || 'Something went wrong. Please try again.');
+      // The API returns English error text; show the localized generic message in Korean.
+      setErrorMessage(t.useServerError && err.message ? err.message : t.errorGeneric);
     }
   }
 
   return (
     <>
       <Seo
-        title="Contact"
-        description="Get in touch with Austin Yoo — send a message directly or connect on LinkedIn."
+        title={t.seoTitle}
+        description={t.seoDescription}
         path="/contact"
       />
 
@@ -52,22 +90,19 @@ export default function Contact() {
           alt="Austin Yoo"
           className="mx-auto mb-6 h-24 w-24 rounded-full border-4 border-white object-cover shadow-md"
         />
-        <h1 className="text-3xl font-bold text-navy">Get in Touch</h1>
-        <p className="mt-4 text-slate">
-          Interested in collaborating, hiring, or just want to talk about
-          automation and data pipelines? Send a message below.
-        </p>
+        <h1 className="text-3xl font-bold text-navy">{t.title}</h1>
+        <p className="mt-4 text-slate">{t.intro}</p>
 
         {status === 'sent' ? (
           <div className="mt-10 rounded-lg border border-smart-blue/20 bg-smart-blue/5 px-6 py-8 text-navy">
-            <p className="font-semibold">Message sent — thanks for reaching out!</p>
-            <p className="mt-2 text-sm text-slate">I'll get back to you soon.</p>
+            <p className="font-semibold">{t.sentTitle}</p>
+            <p className="mt-2 text-sm text-slate">{t.sentBody}</p>
             <button
               type="button"
               onClick={() => setStatus('idle')}
               className="mt-4 text-sm font-medium text-smart-blue hover:underline"
             >
-              Send another message
+              {t.sendAnother}
             </button>
           </div>
         ) : (
@@ -87,7 +122,7 @@ export default function Contact() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-navy">
-                  Name
+                  {t.name}
                 </label>
                 <input
                   id="name"
@@ -101,7 +136,7 @@ export default function Contact() {
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-navy">
-                  Email
+                  {t.email}
                 </label>
                 <input
                   id="email"
@@ -117,7 +152,7 @@ export default function Contact() {
 
             <div className="mt-4">
               <label htmlFor="message" className="block text-sm font-medium text-navy">
-                Message
+                {t.message}
               </label>
               <textarea
                 id="message"
@@ -139,7 +174,7 @@ export default function Contact() {
               disabled={status === 'sending'}
               className="mt-6 w-full rounded-lg bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-smart-blue disabled:opacity-60 sm:w-auto"
             >
-              {status === 'sending' ? 'Sending…' : 'Send Message'}
+              {status === 'sending' ? t.sending : t.send}
             </button>
           </form>
         )}

@@ -1,5 +1,43 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useLang } from '../../i18n/index.js';
 import './growthCalc.css';
+
+const text = {
+  en: {
+    deposit: 'Initial deposit',
+    years: 'Years of growth',
+    rate: 'Estimated rate of return (%)',
+    compound: 'Compound frequency',
+    annually: 'Annually',
+    monthly: 'Monthly',
+    contrib: 'Contribution amount',
+    contribFreq: 'Contribution frequency',
+    totalBalance: 'Total Balance',
+    now: 'Now',
+    yearAxis: 'Year',
+    hoverYear: (label) => `Year ${label}`,
+    hoverBalance: 'Total balance',
+    hoverPrincipal: 'Total principal',
+    hoverInterest: 'Total interest',
+  },
+  ko: {
+    deposit: '초기 투자금',
+    years: '투자 기간(년)',
+    rate: '예상 수익률(%)',
+    compound: '복리 주기',
+    annually: '연 1회',
+    monthly: '월 1회',
+    contrib: '납입 금액',
+    contribFreq: '납입 주기',
+    totalBalance: '총 잔액',
+    now: '현재',
+    yearAxis: '연도',
+    hoverYear: (label) => (label === '현재' ? label : `${label}년`),
+    hoverBalance: '총 잔액',
+    hoverPrincipal: '총 원금',
+    hoverInterest: '총 이자',
+  },
+};
 
 const money = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -34,7 +72,7 @@ function growthData({ deposit, years, rate, compound, contrib, contribFreq }) {
   const currentYear = new Date().getFullYear();
 
   const rows = [
-    { YearIndex: 0, Principal: principal, Balance: balance, Interest: balance - principal, LabelYear: 'Now' },
+    { YearIndex: 0, Principal: principal, Balance: balance, Interest: balance - principal, Label: null },
   ];
 
   for (let y = 1; y <= yrs; y++) {
@@ -47,13 +85,15 @@ function growthData({ deposit, years, rate, compound, contrib, contribFreq }) {
       Principal: principal,
       Balance: balance,
       Interest: balance - principal,
-      LabelYear: String(currentYear + y),
+      Label: String(currentYear + y),
     });
   }
   return rows;
 }
 
 export default function CompoundGrowthCalculator() {
+  const lang = useLang();
+  const t = text[lang];
   const [form, setForm] = useState({
     deposit: '10000',
     years: '15',
@@ -86,46 +126,46 @@ export default function CompoundGrowthCalculator() {
       const years = Math.max(1, Math.floor(num(form.years, 15)));
       const xBreaks = uniqueRoundedSequence(0, years, 5);
       const currentYear = new Date().getFullYear();
-      const xLabels = xBreaks.map((x) => (x === 0 ? 'Now' : String(currentYear + x)));
+      const xLabels = xBreaks.map((x) => (x === 0 ? t.now : String(currentYear + x)));
 
       const x = rows.map((d) => d.YearIndex);
       const principal = rows.map((d) => d.Principal);
       const balance = rows.map((d) => d.Balance);
       const hoverText = rows.map(
         (row) =>
-          `<b>Year ${row.LabelYear}</b><br>` +
-          `Total balance: ${money.format(row.Balance)}<br>` +
-          `Total principal: ${money.format(row.Principal)}<br>` +
-          `Total interest: ${money.format(row.Interest)}`
+          `<b>${t.hoverYear(row.Label ?? t.now)}</b><br>` +
+          `${t.hoverBalance}: ${money.format(row.Balance)}<br>` +
+          `${t.hoverPrincipal}: ${money.format(row.Principal)}<br>` +
+          `${t.hoverInterest}: ${money.format(row.Interest)}`
       );
 
       const traces = [
         {
           type: 'scatter', mode: 'lines', x, y: principal, fill: 'tozeroy',
           fillcolor: 'rgba(59, 102, 201, 0.18)', line: { color: 'rgba(0,0,0,0)', width: 0 },
-          hoverinfo: 'skip', showlegend: false, name: 'Total principal',
+          hoverinfo: 'skip', showlegend: false, name: t.hoverPrincipal,
         },
         {
           type: 'scatter', mode: 'lines', x, y: principal,
           line: { color: '#2F5FB3', width: 2 }, text: hoverText,
-          hovertemplate: '%{text}<extra></extra>', name: 'Total principal',
+          hovertemplate: '%{text}<extra></extra>', name: t.hoverPrincipal,
         },
         {
           type: 'scatter', mode: 'lines', x, y: balance, fill: 'tonexty',
           fillcolor: 'rgba(62,124,89,0.15)', line: { color: 'rgba(0,0,0,0)', width: 0 },
-          hoverinfo: 'skip', showlegend: false, name: 'Total interest',
+          hoverinfo: 'skip', showlegend: false, name: t.hoverInterest,
         },
         {
           type: 'scatter', mode: 'lines', x, y: balance,
           line: { color: '#3E7C19', width: 3 }, text: hoverText,
-          hovertemplate: '%{text}<extra></extra>', name: 'Total interest',
+          hovertemplate: '%{text}<extra></extra>', name: t.hoverInterest,
         },
       ];
 
       const layout = {
         hovermode: 'x unified',
         xaxis: {
-          title: 'Year', tickmode: 'array', tickvals: xBreaks, ticktext: xLabels,
+          title: t.yearAxis, tickmode: 'array', tickvals: xBreaks, ticktext: xLabels,
           showgrid: false, zeroline: false,
         },
         yaxis: {
@@ -145,7 +185,7 @@ export default function CompoundGrowthCalculator() {
     return () => {
       cancelled = true;
     };
-  }, [rows, form.years]);
+  }, [rows, form.years, t]);
 
   useEffect(() => {
     const el = plotRef.current;
@@ -159,37 +199,37 @@ export default function CompoundGrowthCalculator() {
       <div className="layout">
         <aside className="sidebar">
           <div className="field">
-            <label htmlFor="gc-deposit">Initial deposit</label>
+            <label htmlFor="gc-deposit">{t.deposit}</label>
             <input id="gc-deposit" type="number" min="0" step="any" value={form.deposit} onChange={set('deposit')} />
           </div>
 
           <div className="field">
-            <label htmlFor="gc-years">Years of growth</label>
+            <label htmlFor="gc-years">{t.years}</label>
             <input id="gc-years" type="number" min="1" step="1" value={form.years} onChange={set('years')} />
           </div>
 
           <div className="field">
-            <label htmlFor="gc-rate">Estimated rate of return (%)</label>
+            <label htmlFor="gc-rate">{t.rate}</label>
             <input id="gc-rate" type="number" min="0" step="any" value={form.rate} onChange={set('rate')} />
           </div>
 
           <div className="field">
-            <label htmlFor="gc-compound">Compound frequency</label>
+            <label htmlFor="gc-compound">{t.compound}</label>
             <select id="gc-compound" value={form.compound} onChange={set('compound')}>
-              <option value="1">Annually</option>
-              <option value="12">Monthly</option>
+              <option value="1">{t.annually}</option>
+              <option value="12">{t.monthly}</option>
             </select>
           </div>
 
           <div className="field">
-            <label htmlFor="gc-contrib">Contribution amount</label>
+            <label htmlFor="gc-contrib">{t.contrib}</label>
             <input id="gc-contrib" type="number" min="0" step="any" value={form.contrib} onChange={set('contrib')} />
           </div>
 
           <div className="field">
-            <div className="radio-group-title">Contribution frequency</div>
+            <div className="radio-group-title">{t.contribFreq}</div>
             <div className="radio-inline">
-              {['Monthly', 'Annually'].map((freq) => (
+              {[['Monthly', t.monthly], ['Annually', t.annually]].map(([freq, label]) => (
                 <label key={freq}>
                   <input
                     type="radio"
@@ -198,7 +238,7 @@ export default function CompoundGrowthCalculator() {
                     checked={form.contribFreq === freq}
                     onChange={set('contribFreq')}
                   />{' '}
-                  {freq}
+                  {label}
                 </label>
               ))}
             </div>
@@ -206,7 +246,7 @@ export default function CompoundGrowthCalculator() {
         </aside>
 
         <main className="main">
-          <h3 className="balance-title">Total Balance</h3>
+          <h3 className="balance-title">{t.totalBalance}</h3>
           <p className="balance-value" id="final_balance">{money.format(finalBalance)}</p>
           <div ref={plotRef} className="plot" />
         </main>

@@ -1,0 +1,5 @@
+{
+  "기술": ["Python", "SQL", "JavaScript/TypeScript", "React", "Vite", "Node.js", "GitHub Actions", "Supabase (PostgreSQL)", "Vercel", "REST APIs", "Anthropic/OpenAI API", "데이터 파이프라인 설계", "Excel/데이터 분석"],
+  "운영": ["재고 관리", "창고 업무 흐름 최적화", "통관·무역 서류", "계약 관리", "협력사·제휴 조율", "품질관리 보고"],
+  "언어": ["영어 (유창)", "한국어 (유창)"]
+}

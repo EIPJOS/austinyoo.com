@@ -1,7 +1,101 @@
 import { useState } from 'react';
+import { useLang } from '../../i18n/index.js';
 import './loanCalc.css';
 
-const fmt = (n) => Math.round(n).toLocaleString('ko-KR') + '만';
+// All money inside the calculator is in units of 만원 (10,000 KRW).
+// Korean shows it as-is ("208만"); English converts to millions of KRW ("₩2.08M").
+const formatters = {
+  ko: (n) => Math.round(n).toLocaleString('ko-KR') + '만',
+  en: (n) => {
+    const m = Math.abs(n) / 100;
+    return `${n < 0 ? '-' : ''}₩${m.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}M`;
+  },
+};
+
+const text = {
+  ko: {
+    srTitle: '상가를 대출로 사서 월세로 대출을 갚는 구조를 보여주고, 조건을 바꾸면 매달 남는 돈이 계산되는 그림',
+    svgTitle: '상가 대출 투자 구조',
+    svgDesc: '내 돈과 은행 대출로 상가를 사고, 임차인 월세로 은행 이자와 원금을 갚고 남는 돈이 내 수익이 되는 흐름',
+    diagram: {
+      myMoney: ['내 돈', '자기자본+세금'],
+      bankLoan: ['은행 대출', 'LTV·RTI 심사'],
+      buy: ['상가 매수', '임장으로 고르기'],
+      rent: ['임차인 월세', '공실이면 0원'],
+      repay: ['이자+원금', '은행으로'],
+      left: ['남는 돈', '내 수익'],
+    },
+    price: '상가 가격',
+    ltv: '대출 비율(LTV)',
+    yield: '임대 수익률',
+    rate: '대출 금리',
+    vacancy: '1년 중 공실',
+    repayment: '상환 방식',
+    interestOnly: '이자만 내기',
+    amortized: '원금까지 20년 상환',
+    priceDisplay: (p) => `${p}억`,
+    monthsDisplay: (v) => `${v}개월`,
+    barTitle: '월세 한 달치가 어디로 가나',
+    barInterest: '이자',
+    barPrincipal: '원금',
+    barLeft: '남는 돈',
+    barCovered: '내 돈으로 메움',
+    cardRent: '월세(공실 반영)',
+    cardPay: '은행에 낼 돈/월',
+    cardLeft: '매달 남는 돈',
+    cardRti: 'RTI (1.5배 이상 필요)',
+    rtiValue: (x) => `${x.toFixed(2)}배`,
+    noLoan: '대출 없음',
+    msgLowRti: '월세가 이자의 1.5배가 안 돼서, 이 조건이면 은행이 대출 한도를 줄일 가능성이 커요.',
+    msgShort: (amount) => `월세로 은행 돈을 다 못 내요. 모자란 ${amount}원을 매달 내 주머니에서 내야 해요.`,
+    msgOk: (amount) => `월세로 은행 돈을 내고도 매달 ${amount}원이 남아요. 공실 슬라이더를 올려 보세요.`,
+    footnote: '재산세, 관리비, 수선비, 소득세는 빠진 단순 계산이에요. 실제로 남는 돈은 이보다 적어요.',
+  },
+  en: {
+    srTitle:
+      'A diagram showing a commercial property bought with a loan and the loan repaid from rent, with the monthly leftover recalculated as you change the conditions',
+    svgTitle: 'Commercial property loan investment structure',
+    svgDesc:
+      'You buy a commercial property with your own money and a bank loan; tenant rent pays the bank interest and principal, and what is left is your profit',
+    diagram: {
+      myMoney: ['Your money', 'equity + taxes'],
+      bankLoan: ['Bank loan', 'LTV · RTI review'],
+      buy: ['Buy property', 'pick via site visits'],
+      rent: ['Tenant rent', '0 if vacant'],
+      repay: ['Loan payment', 'to the bank'],
+      left: ['Left over', 'your profit'],
+    },
+    price: 'Property price',
+    ltv: 'Loan-to-value (LTV)',
+    yield: 'Rental yield',
+    rate: 'Loan interest rate',
+    vacancy: 'Vacancy per year',
+    repayment: 'Repayment',
+    interestOnly: 'Interest only',
+    amortized: 'Principal + interest, 20 years',
+    priceDisplay: (p) => `₩${(p * 100).toLocaleString('en-US')}M`,
+    monthsDisplay: (v) => `${v} mo`,
+    barTitle: 'Where one month of rent goes',
+    barInterest: 'Interest',
+    barPrincipal: 'Principal',
+    barLeft: 'Left over',
+    barCovered: 'Covered by you',
+    cardRent: 'Rent (after vacancy)',
+    cardPay: 'Paid to the bank / month',
+    cardLeft: 'Left over / month',
+    cardRti: 'RTI (needs 1.5× or more)',
+    rtiValue: (x) => `${x.toFixed(2)}×`,
+    noLoan: 'No loan',
+    msgLowRti:
+      'Rent is less than 1.5× the interest, so under these conditions the bank is likely to reduce your loan limit.',
+    msgShort: (amount) =>
+      `Rent does not cover the bank payment. You would have to cover the ${amount} shortfall out of pocket every month.`,
+    msgOk: (amount) =>
+      `Rent covers the bank payment and leaves ${amount} every month. Try raising the vacancy slider.`,
+    footnote:
+      'A simplified calculation: property tax, management fees, repairs, and income tax are not included, so the real amount left over is lower. Amounts are in Korean won (₩); M = million.',
+  },
+};
 
 function Slider({ id, label, min, max, step, value, onChange, display }) {
   return (
@@ -22,6 +116,9 @@ function Slider({ id, label, min, max, step, value, onChange, display }) {
 }
 
 export default function CommercialLoanCalculator() {
+  const lang = useLang();
+  const t = text[lang];
+  const fmt = formatters[lang];
   const [price, setPrice] = useState(5); // 억
   const [ltv, setLtv] = useState(60); // %
   const [yieldPct, setYieldPct] = useState(5); // %
@@ -50,23 +147,21 @@ export default function CommercialLoanCalculator() {
 
   let msg;
   if (rti < 1.5) {
-    msg = '월세가 이자의 1.5배가 안 돼서, 이 조건이면 은행이 대출 한도를 줄일 가능성이 커요.';
+    msg = t.msgLowRti;
   } else if (left < 0) {
-    msg = '월세로 은행 돈을 다 못 내요. 모자란 ' + fmt(-left) + '원을 매달 내 주머니에서 내야 해요.';
+    msg = t.msgShort(fmt(-left));
   } else {
-    msg = '월세로 은행 돈을 내고도 매달 ' + fmt(left) + '원이 남아요. 공실 슬라이더를 올려 보세요.';
+    msg = t.msgOk(fmt(left));
   }
+
+  const d = t.diagram;
 
   return (
     <div className="loan-calc">
-      <h2 className="sr-only">
-        상가를 대출로 사서 월세로 대출을 갚는 구조를 보여주고, 조건을 바꾸면 매달 남는 돈이 계산되는 그림
-      </h2>
+      <h2 className="sr-only">{t.srTitle}</h2>
       <svg width="100%" viewBox="0 0 680 170" role="img">
-        <title>상가 대출 투자 구조</title>
-        <desc>
-          내 돈과 은행 대출로 상가를 사고, 임차인 월세로 은행 이자와 원금을 갚고 남는 돈이 내 수익이 되는 흐름
-        </desc>
+        <title>{t.svgTitle}</title>
+        <desc>{t.svgDesc}</desc>
         <defs>
           <marker
             id="loan-arrow"
@@ -89,33 +184,33 @@ export default function CommercialLoanCalculator() {
         </defs>
         <g className="c-gray">
           <rect x="20" y="20" width="120" height="50" rx="8" strokeWidth="0.5" />
-          <text className="th" x="80" y="38" textAnchor="middle" dominantBaseline="central">내 돈</text>
-          <text className="ts" x="80" y="56" textAnchor="middle" dominantBaseline="central">자기자본+세금</text>
+          <text className="th" x="80" y="38" textAnchor="middle" dominantBaseline="central">{d.myMoney[0]}</text>
+          <text className="ts" x="80" y="56" textAnchor="middle" dominantBaseline="central">{d.myMoney[1]}</text>
         </g>
         <g className="c-purple">
           <rect x="20" y="100" width="120" height="50" rx="8" strokeWidth="0.5" />
-          <text className="th" x="80" y="118" textAnchor="middle" dominantBaseline="central">은행 대출</text>
-          <text className="ts" x="80" y="136" textAnchor="middle" dominantBaseline="central">LTV·RTI 심사</text>
+          <text className="th" x="80" y="118" textAnchor="middle" dominantBaseline="central">{d.bankLoan[0]}</text>
+          <text className="ts" x="80" y="136" textAnchor="middle" dominantBaseline="central">{d.bankLoan[1]}</text>
         </g>
         <g className="c-gray">
           <rect x="200" y="60" width="120" height="50" rx="8" strokeWidth="0.5" />
-          <text className="th" x="260" y="78" textAnchor="middle" dominantBaseline="central">상가 매수</text>
-          <text className="ts" x="260" y="96" textAnchor="middle" dominantBaseline="central">임장으로 고르기</text>
+          <text className="th" x="260" y="78" textAnchor="middle" dominantBaseline="central">{d.buy[0]}</text>
+          <text className="ts" x="260" y="96" textAnchor="middle" dominantBaseline="central">{d.buy[1]}</text>
         </g>
         <g className="c-teal">
           <rect x="380" y="60" width="120" height="50" rx="8" strokeWidth="0.5" />
-          <text className="th" x="440" y="78" textAnchor="middle" dominantBaseline="central">임차인 월세</text>
-          <text className="ts" x="440" y="96" textAnchor="middle" dominantBaseline="central">공실이면 0원</text>
+          <text className="th" x="440" y="78" textAnchor="middle" dominantBaseline="central">{d.rent[0]}</text>
+          <text className="ts" x="440" y="96" textAnchor="middle" dominantBaseline="central">{d.rent[1]}</text>
         </g>
         <g className="c-purple">
           <rect x="550" y="20" width="110" height="50" rx="8" strokeWidth="0.5" />
-          <text className="th" x="605" y="38" textAnchor="middle" dominantBaseline="central">이자+원금</text>
-          <text className="ts" x="605" y="56" textAnchor="middle" dominantBaseline="central">은행으로</text>
+          <text className="th" x="605" y="38" textAnchor="middle" dominantBaseline="central">{d.repay[0]}</text>
+          <text className="ts" x="605" y="56" textAnchor="middle" dominantBaseline="central">{d.repay[1]}</text>
         </g>
         <g className="c-teal">
           <rect x="550" y="100" width="110" height="50" rx="8" strokeWidth="0.5" />
-          <text className="th" x="605" y="118" textAnchor="middle" dominantBaseline="central">남는 돈</text>
-          <text className="ts" x="605" y="136" textAnchor="middle" dominantBaseline="central">내 수익</text>
+          <text className="th" x="605" y="118" textAnchor="middle" dominantBaseline="central">{d.left[0]}</text>
+          <text className="ts" x="605" y="136" textAnchor="middle" dominantBaseline="central">{d.left[1]}</text>
         </g>
         <path d="M140 45 L170 45 L170 75 L198 75" className="arr" markerEnd="url(#loan-arrow)" />
         <path d="M140 125 L170 125 L170 95 L198 95" className="arr" markerEnd="url(#loan-arrow)" />
@@ -125,34 +220,34 @@ export default function CommercialLoanCalculator() {
       </svg>
 
       <div style={{ marginTop: '1rem' }}>
-        <Slider id="p" label="상가 가격" min={1} max={20} step={0.5} value={price} onChange={setPrice} display={price + '억'} />
-        <Slider id="l" label="대출 비율(LTV)" min={0} max={80} step={5} value={ltv} onChange={setLtv} display={ltv + '%'} />
-        <Slider id="y" label="임대 수익률" min={2} max={9} step={0.1} value={yieldPct} onChange={setYieldPct} display={yieldPct.toFixed(1) + '%'} />
-        <Slider id="r" label="대출 금리" min={2} max={8} step={0.1} value={rate} onChange={setRate} display={rate.toFixed(1) + '%'} />
-        <Slider id="v" label="1년 중 공실" min={0} max={6} step={1} value={vacancy} onChange={setVacancy} display={vacancy + '개월'} />
+        <Slider id="p" label={t.price} min={1} max={20} step={0.5} value={price} onChange={setPrice} display={t.priceDisplay(price)} />
+        <Slider id="l" label={t.ltv} min={0} max={80} step={5} value={ltv} onChange={setLtv} display={ltv + '%'} />
+        <Slider id="y" label={t.yield} min={2} max={9} step={0.1} value={yieldPct} onChange={setYieldPct} display={yieldPct.toFixed(1) + '%'} />
+        <Slider id="r" label={t.rate} min={2} max={8} step={0.1} value={rate} onChange={setRate} display={rate.toFixed(1) + '%'} />
+        <Slider id="v" label={t.vacancy} min={0} max={6} step={1} value={vacancy} onChange={setVacancy} display={t.monthsDisplay(vacancy)} />
         <div className="row">
-          <label htmlFor="m">상환 방식</label>
+          <label htmlFor="m">{t.repayment}</label>
           <select id="m" style={{ flex: 1 }} value={mode} onChange={(e) => setMode(e.target.value)}>
-            <option value="i">이자만 내기</option>
-            <option value="a">원금까지 20년 상환</option>
+            <option value="i">{t.interestOnly}</option>
+            <option value="a">{t.amortized}</option>
           </select>
         </div>
       </div>
 
       <div style={{ margin: '1rem 0 6px', fontSize: 13, color: 'var(--text-secondary)' }}>
-        월세 한 달치가 어디로 가나
+        {t.barTitle}
       </div>
       <div className="bar">
-        <div style={{ width: w(Math.min(int, rent)), background: '#CECBF6', color: '#3C3489' }}>이자</div>
+        <div style={{ width: w(Math.min(int, rent)), background: '#CECBF6', color: '#3C3489' }}>{t.barInterest}</div>
         {prin > 0 && (
           <div style={{ width: w(Math.min(prin, Math.max(0, rent - int))), background: '#AFA9EC', color: '#26215C' }}>
-            원금
+            {t.barPrincipal}
           </div>
         )}
         {left > 0 ? (
-          <div style={{ width: w(left), background: '#9FE1CB', color: '#085041' }}>남는 돈</div>
+          <div style={{ width: w(left), background: '#9FE1CB', color: '#085041' }}>{t.barLeft}</div>
         ) : (
-          <div style={{ width: w(-left), background: '#F7C1C1', color: '#791F1F' }}>내 돈으로 메움</div>
+          <div style={{ width: w(-left), background: '#F7C1C1', color: '#791F1F' }}>{t.barCovered}</div>
         )}
       </div>
 
@@ -164,16 +259,16 @@ export default function CommercialLoanCalculator() {
           marginTop: '1rem',
         }}
       >
-        <div className="mc"><p>월세(공실 반영)</p><b>{fmt(rent)}</b></div>
-        <div className="mc"><p>은행에 낼 돈/월</p><b>{fmt(pay)}</b></div>
+        <div className="mc"><p>{t.cardRent}</p><b>{fmt(rent)}</b></div>
+        <div className="mc"><p>{t.cardPay}</p><b>{fmt(pay)}</b></div>
         <div className="mc">
-          <p>매달 남는 돈</p>
+          <p>{t.cardLeft}</p>
           <b style={{ color: left < 0 ? 'var(--text-danger)' : 'var(--text-success)' }}>{fmt(left)}</b>
         </div>
         <div className="mc">
-          <p>RTI (1.5배 이상 필요)</p>
+          <p>{t.cardRti}</p>
           <b style={{ color: rti < 1.5 ? 'var(--text-danger)' : 'var(--text-primary)' }}>
-            {isFinite(rti) ? rti.toFixed(2) + '배' : '대출 없음'}
+            {isFinite(rti) ? t.rtiValue(rti) : t.noLoan}
           </b>
         </div>
       </div>
@@ -186,9 +281,7 @@ export default function CommercialLoanCalculator() {
       >
         {msg}
       </p>
-      <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '6px 0 0' }}>
-        재산세, 관리비, 수선비, 소득세는 빠진 단순 계산이에요. 실제로 남는 돈은 이보다 적어요.
-      </p>
+      <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '6px 0 0' }}>{t.footnote}</p>
     </div>
   );
 }

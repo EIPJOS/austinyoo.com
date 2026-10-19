@@ -47,6 +47,6 @@ Computational Data Sciences graduate with hands-on experience in warehouse and l
 
 ## Education
 
-**George Mason University**
-Bachelor of Science, Computational Data Sciences
+**George Mason University**\
+Bachelor of Science, Computational Data Sciences\
 Minors: Business, Data Analysis

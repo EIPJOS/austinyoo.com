@@ -1,9 +1,67 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useLang } from '../../i18n/index.js';
 import './loanPaymentCalc.css';
+
+const text = {
+  en: {
+    heading: 'Loan Calculator',
+    amount: 'Loan amount',
+    term: 'Loan term',
+    months: 'Months',
+    years: 'Years',
+    rate: 'Interest rate (%)',
+    extra: 'Optional extra monthly payment',
+    calculate: 'Calculate',
+    error: 'Please enter a loan amount and term greater than 0.',
+    monthly: 'Estimated monthly payment',
+    principalPaid: 'Total loan amount paid',
+    totalCost: 'Total cost of loan',
+    interestPaid: 'Total interest paid',
+    payoff: 'Payoff date',
+    schedule: 'Amortization Schedule',
+    lastPayment: 'Last payment:',
+    thYear: 'Year',
+    thPayment: 'Your payment',
+    thPrincipal: 'Principal paid',
+    thInterest: 'Interest paid',
+    thTotalInterest: 'Total interest paid',
+    thBalance: 'Balance',
+    exportCsv: 'Export as CSV',
+    print: 'Print-friendly version',
+    locale: 'en-US',
+  },
+  ko: {
+    heading: '대출 계산기',
+    amount: '대출 금액',
+    term: '대출 기간',
+    months: '개월',
+    years: '년',
+    rate: '금리(%)',
+    extra: '월 추가 상환금(선택)',
+    calculate: '계산하기',
+    error: '대출 금액과 기간을 0보다 크게 입력해 주세요.',
+    monthly: '예상 월 납입액',
+    principalPaid: '총 원금 상환액',
+    totalCost: '총 대출 비용',
+    interestPaid: '총 이자 납입액',
+    payoff: '상환 완료일',
+    schedule: '상환 일정표',
+    lastPayment: '마지막 납입:',
+    thYear: '연도',
+    thPayment: '납입액',
+    thPrincipal: '원금 상환',
+    thInterest: '이자 납입',
+    thTotalInterest: '누적 이자',
+    thBalance: '잔액',
+    exportCsv: 'CSV로 내보내기',
+    print: '인쇄용 보기',
+    locale: 'ko-KR',
+  },
+};
 
 const money = (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
-function calculateLoan({ amount, term, rate, extra, termType }) {
+function calculateLoan({ amount, term, rate, extra, termType }, locale) {
   const months = termType === 'years' ? term * 12 : term;
   const monthlyRate = rate / 100 / 12;
 
@@ -58,13 +116,14 @@ function calculateLoan({ amount, term, rate, extra, termType }) {
     totalPrincipal,
     totalInterest,
     totalCost: totalPrincipal + totalInterest,
-    payoffText: currentMonth.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+    payoffText: currentMonth.toLocaleDateString(locale, { month: 'short', year: 'numeric' }),
     schedule,
     yearly: [...yearly.values()],
   };
 }
 
 export default function LoanPaymentCalculator() {
+  const t = text[useLang()];
   const [form, setForm] = useState({ amount: '10000', term: '5', termType: 'years', rate: '10', extra: '0' });
   const [applied, setApplied] = useState(form);
   const canvasRef = useRef(null);
@@ -73,14 +132,17 @@ export default function LoanPaymentCalculator() {
 
   const result = useMemo(
     () =>
-      calculateLoan({
-        amount: Number(applied.amount),
-        term: Number(applied.term),
-        rate: Number(applied.rate),
-        extra: Number(applied.extra),
-        termType: applied.termType,
-      }),
-    [applied]
+      calculateLoan(
+        {
+          amount: Number(applied.amount),
+          term: Number(applied.term),
+          rate: Number(applied.rate),
+          extra: Number(applied.extra),
+          termType: applied.termType,
+        },
+        t.locale
+      ),
+    [applied, t.locale]
   );
 
   useEffect(() => {
@@ -127,56 +189,56 @@ export default function LoanPaymentCalculator() {
     <div className="loan-pmt">
       <div className="container">
         <div className="sidebar">
-          <h3>Loan Calculator</h3>
+          <h3>{t.heading}</h3>
 
-          <label htmlFor="lp-amount">Loan amount</label>
+          <label htmlFor="lp-amount">{t.amount}</label>
           <input id="lp-amount" type="number" value={form.amount} onChange={set('amount')} />
 
-          <label htmlFor="lp-term">Loan term</label>
+          <label htmlFor="lp-term">{t.term}</label>
           <input id="lp-term" type="number" value={form.term} onChange={set('term')} />
 
           <div className="radio-row">
             <label>
               <input type="radio" name="lp-termType" value="months" checked={form.termType === 'months'} onChange={set('termType')} />
-              Months
+              {t.months}
             </label>
             <label>
               <input type="radio" name="lp-termType" value="years" checked={form.termType === 'years'} onChange={set('termType')} />
-              Years
+              {t.years}
             </label>
           </div>
 
-          <label htmlFor="lp-rate">Interest rate (%)</label>
+          <label htmlFor="lp-rate">{t.rate}</label>
           <input id="lp-rate" type="number" step="0.01" value={form.rate} onChange={set('rate')} />
 
-          <label htmlFor="lp-extra">Optional extra monthly payment</label>
+          <label htmlFor="lp-extra">{t.extra}</label>
           <input id="lp-extra" type="number" value={form.extra} onChange={set('extra')} />
 
-          <button type="button" onClick={() => setApplied(form)}>Calculate</button>
-          {!result && <p className="error">Please enter a loan amount and term greater than 0.</p>}
+          <button type="button" onClick={() => setApplied(form)}>{t.calculate}</button>
+          {!result && <p className="error">{t.error}</p>}
         </div>
 
         <div className="main">
           <div className="result-card">
             <div>
-              <h4>Estimated monthly payment</h4>
+              <h4>{t.monthly}</h4>
               <div className="payment">{result ? money(result.monthlyPayment) : '—'}</div>
 
               <div className="stats">
                 <div>
-                  <div className="stat-title">Total loan amount paid</div>
+                  <div className="stat-title">{t.principalPaid}</div>
                   <div className="stat-value">{result ? money(result.totalPrincipal) : '—'}</div>
                 </div>
                 <div>
-                  <div className="stat-title">Total cost of loan</div>
+                  <div className="stat-title">{t.totalCost}</div>
                   <div className="stat-value">{result ? money(result.totalCost) : '—'}</div>
                 </div>
                 <div>
-                  <div className="stat-title">Total interest paid</div>
+                  <div className="stat-title">{t.interestPaid}</div>
                   <div className="stat-value">{result ? money(result.totalInterest) : '—'}</div>
                 </div>
                 <div>
-                  <div className="stat-title">Payoff date</div>
+                  <div className="stat-title">{t.payoff}</div>
                   <div className="stat-value">{result ? result.payoffText : '—'}</div>
                 </div>
               </div>
@@ -185,16 +247,16 @@ export default function LoanPaymentCalculator() {
             <div className="chart-wrap">
               <canvas ref={canvasRef} width="180" height="180" />
               <div className="legend">
-                <div><span className="blue-box" />Total loan amount paid</div>
-                <div><span className="green-box" />Total interest paid</div>
+                <div><span className="blue-box" />{t.principalPaid}</div>
+                <div><span className="green-box" />{t.interestPaid}</div>
               </div>
             </div>
           </div>
 
           <div className="schedule-header">
-            <h3>Amortization Schedule</h3>
+            <h3>{t.schedule}</h3>
             <div>
-              <strong>Last payment:</strong> <span>{result ? result.payoffText : '—'}</span>
+              <strong>{t.lastPayment}</strong> <span>{result ? result.payoffText : '—'}</span>
             </div>
           </div>
 
@@ -202,12 +264,12 @@ export default function LoanPaymentCalculator() {
             <table>
               <thead>
                 <tr>
-                  <th>Year</th>
-                  <th>Your payment</th>
-                  <th>Principal paid</th>
-                  <th>Interest paid</th>
-                  <th>Total interest paid</th>
-                  <th>Balance</th>
+                  <th>{t.thYear}</th>
+                  <th>{t.thPayment}</th>
+                  <th>{t.thPrincipal}</th>
+                  <th>{t.thInterest}</th>
+                  <th>{t.thTotalInterest}</th>
+                  <th>{t.thBalance}</th>
                 </tr>
               </thead>
               <tbody>
@@ -227,8 +289,8 @@ export default function LoanPaymentCalculator() {
           </div>
 
           <div className="links">
-            <button type="button" onClick={exportCSV}>Export as CSV</button>
-            <button type="button" onClick={() => window.print()}>Print-friendly version</button>
+            <button type="button" onClick={exportCSV}>{t.exportCsv}</button>
+            <button type="button" onClick={() => window.print()}>{t.print}</button>
           </div>
         </div>
       </div>

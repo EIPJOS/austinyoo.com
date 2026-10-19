@@ -1,5 +1,91 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLang } from '../../i18n/index.js';
 import './portfolioCalc.css';
+
+const text = {
+  en: {
+    subtitle:
+      'Enter stock positions by shares or by total dollar value, then click Run Portfolio to update the chart and table.',
+    add: 'Add Stock Slot',
+    run: 'Run Portfolio',
+    reset: 'Reset All',
+    slot: (id) => `Stock Slot ${id}`,
+    remove: 'Remove',
+    ticker: 'Ticker',
+    tickerPlaceholder: 'e.g. AAPL',
+    inputMethod: 'Input Method',
+    modeShares: 'Shares',
+    modeValue: 'Total Value',
+    shares: 'Shares',
+    price: 'Price per Share',
+    value: 'Total Position Value ($)',
+    totalValue: 'Total Portfolio Value',
+    uniqueTickers: 'Unique Tickers',
+    pieTitle: 'Portfolio Pie Chart',
+    tableTitle: 'Portfolio Table',
+    thTicker: 'Ticker',
+    thShares: 'Shares',
+    thPrice: 'Price per Share',
+    thValue: 'Value',
+    thWeight: 'Weight',
+    mixed: 'Mixed',
+    emptyTable: 'No valid positions entered yet.',
+    emptyChart: 'Enter at least one valid stock position.',
+    zeroChart: 'Portfolio value must be greater than 0.',
+    hoverValue: 'Value',
+    hoverWeight: 'Weight',
+    msg: {
+      tickerRequired: 'Ticker is required.',
+      sharesRequired: 'Shares is required when Input Method is Shares.',
+      priceRequired: 'Price per Share is required when Input Method is Shares.',
+      sharesInvalid: 'Shares must be a valid number greater than or equal to 0.',
+      priceInvalid: 'Price per Share must be a valid number greater than or equal to 0.',
+      valueRequired: 'Total Position Value is required when Input Method is Total Value.',
+      valueInvalid: 'Total Position Value must be a valid number greater than or equal to 0.',
+    },
+  },
+  ko: {
+    subtitle:
+      '종목별 보유 수량(주식 수) 또는 총 평가금액을 입력한 뒤 "포트폴리오 실행"을 누르면 차트와 표가 업데이트됩니다.',
+    add: '종목 추가',
+    run: '포트폴리오 실행',
+    reset: '전체 초기화',
+    slot: (id) => `종목 ${id}`,
+    remove: '삭제',
+    ticker: '티커',
+    tickerPlaceholder: '예: AAPL',
+    inputMethod: '입력 방식',
+    modeShares: '주식 수',
+    modeValue: '총 평가금액',
+    shares: '주식 수',
+    price: '주당 가격',
+    value: '포지션 총 평가금액 ($)',
+    totalValue: '포트폴리오 총 평가액',
+    uniqueTickers: '종목 수',
+    pieTitle: '포트폴리오 파이 차트',
+    tableTitle: '포트폴리오 표',
+    thTicker: '티커',
+    thShares: '주식 수',
+    thPrice: '주당 가격',
+    thValue: '평가금액',
+    thWeight: '비중',
+    mixed: '혼합',
+    emptyTable: '아직 입력된 유효한 종목이 없어요.',
+    emptyChart: '유효한 종목을 한 개 이상 입력해 주세요.',
+    zeroChart: '포트폴리오 총액이 0보다 커야 해요.',
+    hoverValue: '평가금액',
+    hoverWeight: '비중',
+    msg: {
+      tickerRequired: '티커를 입력해 주세요.',
+      sharesRequired: '입력 방식이 "주식 수"일 때는 주식 수가 필요해요.',
+      priceRequired: '입력 방식이 "주식 수"일 때는 주당 가격이 필요해요.',
+      sharesInvalid: '주식 수는 0 이상의 올바른 숫자여야 해요.',
+      priceInvalid: '주당 가격은 0 이상의 올바른 숫자여야 해요.',
+      valueRequired: '입력 방식이 "총 평가금액"일 때는 포지션 총 평가금액이 필요해요.',
+      valueInvalid: '포지션 총 평가금액은 0 이상의 올바른 숫자여야 해요.',
+    },
+  },
+};
 
 const money2 = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -20,7 +106,7 @@ const defaultCards = () => [
 ];
 
 // Returns { active, valid, data, messages, invalid } for one stock card.
-function validateCard(card) {
+function validateCard(card, m) {
   const ticker = card.ticker.trim().toUpperCase();
   const sharesRaw = card.shares.trim();
   const priceRaw = card.price.trim();
@@ -34,27 +120,27 @@ function validateCard(card) {
   const invalid = [];
 
   if (!ticker) {
-    messages.push('Ticker is required.');
+    messages.push(m.tickerRequired);
     invalid.push('ticker');
   }
 
   if (card.mode === 'shares') {
     if (sharesRaw === '') {
-      messages.push('Shares is required when Input Method is Shares.');
+      messages.push(m.sharesRequired);
       invalid.push('shares');
     }
     if (priceRaw === '') {
-      messages.push('Price per Share is required when Input Method is Shares.');
+      messages.push(m.priceRequired);
       invalid.push('price');
     }
     const shares = Number(sharesRaw);
     const price = Number(priceRaw);
     if (sharesRaw !== '' && (!Number.isFinite(shares) || shares < 0)) {
-      messages.push('Shares must be a valid number greater than or equal to 0.');
+      messages.push(m.sharesInvalid);
       invalid.push('shares');
     }
     if (priceRaw !== '' && (!Number.isFinite(price) || price < 0)) {
-      messages.push('Price per Share must be a valid number greater than or equal to 0.');
+      messages.push(m.priceInvalid);
       invalid.push('price');
     }
     if (messages.length) return { active: true, valid: false, data: null, messages, invalid };
@@ -68,12 +154,12 @@ function validateCard(card) {
   }
 
   if (valueRaw === '') {
-    messages.push('Total Position Value is required when Input Method is Total Value.');
+    messages.push(m.valueRequired);
     invalid.push('value');
   }
   const value = Number(valueRaw);
   if (valueRaw !== '' && (!Number.isFinite(value) || value < 0)) {
-    messages.push('Total Position Value must be a valid number greater than or equal to 0.');
+    messages.push(m.valueInvalid);
     invalid.push('value');
   }
   if (messages.length) return { active: true, valid: false, data: null, messages, invalid };
@@ -128,8 +214,8 @@ function buildPortfolio(rows) {
   return df;
 }
 
-function runAll(cards) {
-  const results = cards.map((c) => ({ id: c.id, ...validateCard(c) }));
+function runAll(cards, m) {
+  const results = cards.map((c) => ({ id: c.id, ...validateCard(c, m) }));
   const errors = {};
   results.forEach((r) => {
     if (r.active && !r.valid) errors[r.id] = { messages: r.messages, invalid: r.invalid };
@@ -140,9 +226,11 @@ function runAll(cards) {
 }
 
 export default function PortfolioAllocationDashboard() {
+  const lang = useLang();
+  const t = text[lang];
   const [cards, setCards] = useState(defaultCards);
   const [errors, setErrors] = useState({});
-  const [df, setDf] = useState(() => runAll(defaultCards()).df);
+  const [df, setDf] = useState(() => runAll(defaultCards(), text.en.msg).df);
   const pieRef = useRef(null);
   const plotlyRef = useRef(null);
 
@@ -167,7 +255,7 @@ export default function PortfolioAllocationDashboard() {
   };
 
   const run = () => {
-    const result = runAll(cards);
+    const result = runAll(cards, t.msg);
     setErrors(result.errors);
     if (result.df) setDf(result.df);
   };
@@ -189,9 +277,9 @@ export default function PortfolioAllocationDashboard() {
       const config = { responsive: true, displayModeBar: true };
 
       const message = df.length === 0
-        ? 'Enter at least one valid stock position.'
+        ? t.emptyChart
         : total <= 0
-          ? 'Portfolio value must be greater than 0.'
+          ? t.zeroChart
           : null;
 
       if (message) {
@@ -219,7 +307,7 @@ export default function PortfolioAllocationDashboard() {
             values: df.map((row) => row.Value),
             type: 'pie',
             textinfo: 'label+percent',
-            hovertemplate: '<b>%{label}</b><br>Value: $%{value:,.2f}<br>Weight: %{percent}<extra></extra>',
+            hovertemplate: `<b>%{label}</b><br>${t.hoverValue}: $%{value:,.2f}<br>${t.hoverWeight}: %{percent}<extra></extra>`,
           },
         ],
         { showlegend: true, paper_bgcolor: 'white', plot_bgcolor: 'white', margin: { l: 20, r: 20, t: 10, b: 10 } },
@@ -230,7 +318,7 @@ export default function PortfolioAllocationDashboard() {
     return () => {
       cancelled = true;
     };
-  }, [df, total]);
+  }, [df, total, t]);
 
   useEffect(() => {
     const el = pieRef.current;
@@ -245,12 +333,12 @@ export default function PortfolioAllocationDashboard() {
     <div className="portfolio-calc">
       <div className="top-card">
         <p className="app-subtitle">
-          Enter stock positions by shares or by total dollar value, then click Run Portfolio to update the chart and table.
+          {t.subtitle}
         </p>
         <div className="btn-row">
-          <button type="button" className="btn-primary" onClick={addCard}>Add Stock Slot</button>
-          <button type="button" className="btn-run" onClick={run}>Run Portfolio</button>
-          <button type="button" className="btn-default" onClick={reset}>Reset All</button>
+          <button type="button" className="btn-primary" onClick={addCard}>{t.add}</button>
+          <button type="button" className="btn-run" onClick={run}>{t.run}</button>
+          <button type="button" className="btn-default" onClick={reset}>{t.reset}</button>
         </div>
       </div>
 
@@ -261,16 +349,16 @@ export default function PortfolioAllocationDashboard() {
             return (
               <div className="stock-card" key={id}>
                 <div className="stock-card-header">
-                  <h4>Stock Slot {id}</h4>
-                  <button type="button" className="btn-danger" onClick={() => removeCard(id)}>Remove</button>
+                  <h4>{t.slot(id)}</h4>
+                  <button type="button" className="btn-danger" onClick={() => removeCard(id)}>{t.remove}</button>
                 </div>
 
                 <div className="field">
-                  <label htmlFor={`pa-ticker-${id}`}>Ticker</label>
+                  <label htmlFor={`pa-ticker-${id}`}>{t.ticker}</label>
                   <input
                     id={`pa-ticker-${id}`}
                     type="text"
-                    placeholder="e.g. AAPL"
+                    placeholder={t.tickerPlaceholder}
                     className={cls(id, 'ticker')}
                     value={card.ticker}
                     onChange={(e) => updateCard(id, { ticker: e.target.value })}
@@ -278,21 +366,21 @@ export default function PortfolioAllocationDashboard() {
                 </div>
 
                 <div className="field">
-                  <label htmlFor={`pa-mode-${id}`}>Input Method</label>
+                  <label htmlFor={`pa-mode-${id}`}>{t.inputMethod}</label>
                   <select
                     id={`pa-mode-${id}`}
                     value={card.mode}
                     onChange={(e) => updateCard(id, { mode: e.target.value })}
                   >
-                    <option value="shares">Shares</option>
-                    <option value="value">Total Value</option>
+                    <option value="shares">{t.modeShares}</option>
+                    <option value="value">{t.modeValue}</option>
                   </select>
                 </div>
 
                 {card.mode === 'shares' ? (
                   <div>
                     <div className="field">
-                      <label htmlFor={`pa-shares-${id}`}>Shares</label>
+                      <label htmlFor={`pa-shares-${id}`}>{t.shares}</label>
                       <input
                         id={`pa-shares-${id}`}
                         type="number"
@@ -304,7 +392,7 @@ export default function PortfolioAllocationDashboard() {
                       />
                     </div>
                     <div className="field">
-                      <label htmlFor={`pa-price-${id}`}>Price per Share</label>
+                      <label htmlFor={`pa-price-${id}`}>{t.price}</label>
                       <input
                         id={`pa-price-${id}`}
                         type="number"
@@ -318,7 +406,7 @@ export default function PortfolioAllocationDashboard() {
                   </div>
                 ) : (
                   <div className="field">
-                    <label htmlFor={`pa-value-${id}`}>Total Position Value ($)</label>
+                    <label htmlFor={`pa-value-${id}`}>{t.value}</label>
                     <input
                       id={`pa-value-${id}`}
                       type="number"
@@ -349,33 +437,33 @@ export default function PortfolioAllocationDashboard() {
           <div className="summary-grid">
             <div className="summary-box">
               <div className="summary-number">{money2.format(total)}</div>
-              <div className="summary-label">Total Portfolio Value</div>
+              <div className="summary-label">{t.totalValue}</div>
             </div>
             <div className="summary-box">
               <div className="summary-number">{df.length}</div>
-              <div className="summary-label">Unique Tickers</div>
+              <div className="summary-label">{t.uniqueTickers}</div>
             </div>
           </div>
 
           <div className="top-card">
-            <div className="section-title">Portfolio Pie Chart</div>
+            <div className="section-title">{t.pieTitle}</div>
             <div ref={pieRef} className="pie" />
           </div>
 
           <div className="top-card">
-            <div className="section-title">Portfolio Table</div>
+            <div className="section-title">{t.tableTitle}</div>
             <div className="table-wrap">
               {df.length === 0 ? (
-                <div className="empty-state">No valid positions entered yet.</div>
+                <div className="empty-state">{t.emptyTable}</div>
               ) : (
                 <table>
                   <thead>
                     <tr>
-                      <th>Ticker</th>
-                      <th>Shares</th>
-                      <th>Price per Share</th>
-                      <th>Value</th>
-                      <th>Weight</th>
+                      <th>{t.thTicker}</th>
+                      <th>{t.thShares}</th>
+                      <th>{t.thPrice}</th>
+                      <th>{t.thValue}</th>
+                      <th>{t.thWeight}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -383,7 +471,7 @@ export default function PortfolioAllocationDashboard() {
                       <tr key={row.Ticker}>
                         <td>{row.Ticker}</td>
                         <td>{row.Shares === null ? '' : fmtNumber(row.Shares, 4)}</td>
-                        <td>{row.Price === null ? '' : row.Price === 'Mixed' ? 'Mixed' : fmtNumber(row.Price, 2)}</td>
+                        <td>{row.Price === null ? '' : row.Price === 'Mixed' ? t.mixed : fmtNumber(row.Price, 2)}</td>
                         <td>{fmtNumber(row.Value, 2)}</td>
                         <td>{fmtNumber(row.Weight, 2)}%</td>
                       </tr>

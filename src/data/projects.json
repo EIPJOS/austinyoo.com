@@ -7,7 +7,11 @@
     "description": "Fully automated content and data platform tracking U.S. power grid capacity and data center development, monetized through display advertising.",
     "tech": ["React", "Vite", "Supabase (PostgreSQL)", "Vercel", "GitHub Actions", "Anthropic API"],
     "status": "Live",
-    "highlight": "AI-written research briefings sourced from RSS feeds, published on a GitHub Actions schedule"
+    "highlight": "AI-written research briefings sourced from RSS feeds, published on a GitHub Actions schedule",
+    "ko": {
+      "description": "미국 전력망 용량과 데이터센터 개발 현황을 추적하는 완전 자동화 콘텐츠·데이터 플랫폼으로, 디스플레이 광고로 수익화하고 있습니다.",
+      "highlight": "RSS 피드를 바탕으로 AI가 작성한 리서치 브리핑을 GitHub Actions 일정에 맞춰 자동 발행"
+    }
   },
   {
     "slug": "jnb-global",
@@ -17,7 +21,11 @@
     "description": "Corporate website for a customs brokerage specializing in food import/export and quarantine clearance.",
     "tech": ["React", "Vite", "Tailwind CSS", "Vercel"],
     "status": "Live",
-    "highlight": "Multi-language site (KO/EN/中文) with case studies and clearance-review lead capture"
+    "highlight": "Multi-language site (KO/EN/中文) with case studies and clearance-review lead capture",
+    "ko": {
+      "description": "식품 수출입 및 검역 통관을 전문으로 하는 관세사무소의 기업 웹사이트입니다.",
+      "highlight": "다국어(KO/EN/中文) 지원, 사례 연구와 통관 검토 문의 접수 기능 포함"
+    }
   },
   {
     "slug": "customsmate-kr",
@@ -27,7 +35,11 @@
     "description": "Search platform for Korean customs brokers and import/export businesses that aggregates open data from the Korea Customs Service, MFDS, and Ministry of Government Legislation.",
     "tech": ["GitHub Actions", "Supabase", "React/Vite", "AI summarization"],
     "status": "Live",
-    "highlight": "AI-generated plain-Korean regulatory summaries"
+    "highlight": "AI-generated plain-Korean regulatory summaries",
+    "ko": {
+      "description": "관세청, 식약처, 법제처의 공공데이터를 한곳에 모아 관세사와 수출입 기업이 바로 검색할 수 있게 만든 한국 수입 규정 검색 플랫폼입니다.",
+      "highlight": "AI가 만든 쉬운 한국어 규정 요약"
+    }
   },
   {
     "slug": "grid-permit-alerts",
@@ -37,6 +49,10 @@
     "description": "Subscription alert service tracking data center development permit filings across Northern Virginia for commercial real estate brokers, vendor business development teams, and investors.",
     "tech": ["Permit data pipeline", "CRE targeting"],
     "status": "Live",
-    "highlight": "Distribution via existing usgridexplorer.com audience"
+    "highlight": "Distribution via existing usgridexplorer.com audience",
+    "ko": {
+      "description": "북부 버지니아의 데이터센터 개발 허가 신청 현황을 추적해 상업용 부동산 중개인, 벤더 영업팀, 투자자에게 알려주는 구독형 알림 서비스입니다.",
+      "highlight": "기존 usgridexplorer.com 방문자를 유통 채널로 활용"
+    }
   }
 ]
