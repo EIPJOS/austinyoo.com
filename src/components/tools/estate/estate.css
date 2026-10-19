@@ -13,8 +13,7 @@
 
   background: var(--bg);
   color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic',
-    'Noto Sans KR', sans-serif;
+  font-family: inherit;
   line-height: 1.6;
   max-width: 680px;
   margin: 0 auto;

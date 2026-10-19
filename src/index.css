@@ -10,8 +10,46 @@ body {
   @apply bg-light-bg text-navy antialiased;
 }
 
-/* Korean: break lines at spaces instead of mid-word; still wrap very long tokens (URLs, code). */
+/* ---- Korean readability ----
+   Hangul is denser than Latin, so it needs a little more size and air to stay legible. */
 html:lang(ko) body {
-  word-break: keep-all;
-  overflow-wrap: break-word;
+  word-break: keep-all; /* break lines at spaces, not mid-word */
+  overflow-wrap: break-word; /* ...but still wrap very long tokens (URLs, code) */
+  line-height: 1.75;
+  letter-spacing: -0.01em; /* Pretendard is set a bit loose by default for Hangul */
+}
+html:lang(ko) h1,
+html:lang(ko) h2,
+html:lang(ko) h3,
+html:lang(ko) h4 {
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+/* Small text is the hardest to read in Hangul: step it up one notch. */
+html:lang(ko) .text-xs { font-size: 0.8125rem; line-height: 1.5; }   /* 12px -> 13px */
+html:lang(ko) .text-sm { font-size: 0.9375rem; line-height: 1.6; }   /* 14px -> 15px */
+html:lang(ko) .text-lg { line-height: 1.65; }
+
+/* Hangul has no true italic (browsers just slant it, which looks broken): use colour instead. */
+html:lang(ko) em,
+html:lang(ko) i,
+html:lang(ko) cite {
+  font-style: normal;
+}
+html:lang(ko) .prose em {
+  color: #64748b; /* muted, e.g. the date line under a job title */
+  font-weight: 500;
+}
+/* Long-form text (resume): slightly larger than the default 16px. */
+html:lang(ko) .prose {
+  font-size: 1.0625rem;
+}
+/* Top navigation labels are short but small: 13/14px -> 14/15px. */
+html:lang(ko) header nav ul {
+  font-size: 0.875rem;
+}
+@media (min-width: 640px) {
+  html:lang(ko) header nav ul {
+    font-size: 0.9375rem;
+  }
 }

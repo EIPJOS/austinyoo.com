@@ -12,8 +12,33 @@ export default {
         'light-bg': '#F8FAFC',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        // Pretendard covers Latin + Hangul with matching weights; the rest are fallbacks.
+        sans: [
+          '"Pretendard Variable"',
+          'Pretendard',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Apple SD Gothic Neo"',
+          '"Noto Sans KR"',
+          '"Malgun Gothic"',
+          'sans-serif',
+        ],
+        // Monospace fonts have no Hangul glyphs; list Pretendard so Korean text inside
+        // `font-mono` elements (chips, job title) uses it instead of an ugly OS fallback.
+        mono: [
+          '"JetBrains Mono"',
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Consolas',
+          '"Pretendard Variable"',
+          'Pretendard',
+          '"Apple SD Gothic Neo"',
+          '"Noto Sans KR"',
+          '"Malgun Gothic"',
+          'monospace',
+        ],
       },
     },
   },

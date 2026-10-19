@@ -174,6 +174,7 @@ export default function CompoundGrowthCalculator() {
           gridcolor: 'rgba(180,180,180,0.25)', zeroline: false, range: [0, ymax],
         },
         legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: -0.12 },
+        font: { family: 'Pretendard Variable, Pretendard, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif', size: 13 },
         plot_bgcolor: '#f9f9f9',
         paper_bgcolor: '#f9f9f9',
         margin: { l: 60, r: 20, t: 10, b: 70 },

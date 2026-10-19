@@ -288,6 +288,7 @@ export default function PortfolioAllocationDashboard() {
           [],
           {
             annotations: [{ text: message, showarrow: false, font: { size: 16, color: '#6c757d' } }],
+            font: { family: 'Pretendard Variable, Pretendard, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif' },
             xaxis: { visible: false },
             yaxis: { visible: false },
             paper_bgcolor: 'white',
@@ -310,7 +311,13 @@ export default function PortfolioAllocationDashboard() {
             hovertemplate: `<b>%{label}</b><br>${t.hoverValue}: $%{value:,.2f}<br>${t.hoverWeight}: %{percent}<extra></extra>`,
           },
         ],
-        { showlegend: true, paper_bgcolor: 'white', plot_bgcolor: 'white', margin: { l: 20, r: 20, t: 10, b: 10 } },
+        {
+          showlegend: true,
+          paper_bgcolor: 'white',
+          plot_bgcolor: 'white',
+          margin: { l: 20, r: 20, t: 10, b: 10 },
+          font: { family: 'Pretendard Variable, Pretendard, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif', size: 13 },
+        },
         config
       );
     });

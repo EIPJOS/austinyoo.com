@@ -1,11 +1,9 @@
 .loan-pmt {
   background: #f7f8fb;
   color: #111827;
-  font-family: Arial, sans-serif;
+  font-family: inherit;
   padding: 24px;
 }
-
-.loan-pmt * { font-family: Arial, sans-serif; }
 
 .loan-pmt .container {
   background: white;
