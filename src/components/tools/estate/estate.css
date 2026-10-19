@@ -1,0 +1,157 @@
+.estate-calc {
+  --bg: #ffffff;
+  --text-primary: #1f1e1d;
+  --text-secondary: #5f5e5a;
+  --text-muted: #888780;
+  --surface-1: #f5f4ef;
+  --border: rgba(0, 0, 0, 0.15);
+  --text-danger: #a32d2d;
+  --text-success: #3b6d11;
+  --accent: #534ab7;
+  --accent-soft: #eeedfe;
+  --radius: 8px;
+
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic',
+    'Noto Sans KR', sans-serif;
+  line-height: 1.6;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ---------- inputs ---------- */
+.estate-calc .field-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.estate-calc .field-row.select-row { grid-template-columns: 150px minmax(0, 1fr); }
+.estate-calc .field-row input[type='range'] { accent-color: var(--accent); min-width: 0; width: 100%; }
+.estate-calc select {
+  font: inherit;
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-primary);
+  min-width: 0;
+}
+
+.estate-calc .num {
+  display: grid;
+  grid-template-columns: 14px 78px 40px;
+  align-items: center;
+  column-gap: 3px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.estate-calc .num input {
+  width: 78px;
+  padding: 3px 6px;
+  text-align: right;
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.estate-calc .num input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.estate-calc .num em {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.estate-calc .num em.pre { text-align: right; }
+.estate-calc .num em.suf { text-align: left; }
+
+.estate-calc .hint { margin: -4px 0 8px; padding-left: 160px; font-size: 12px; color: var(--text-muted); }
+
+.estate-calc .group-title {
+  margin: 18px 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- results ---------- */
+.estate-calc .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 1rem;
+}
+.estate-calc .mc { background: var(--surface-1); border-radius: var(--radius); padding: 12px 14px; }
+.estate-calc .mc p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+.estate-calc .mc b { display: block; font-size: 22px; font-weight: 500; color: var(--text-primary); line-height: 1.35; }
+.estate-calc .mc small { display: block; margin-top: 2px; font-size: 12px; color: var(--text-muted); }
+.estate-calc .mc.hl { background: var(--accent-soft); outline: 1px solid var(--accent); }
+.estate-calc .mc.hl b { font-size: 26px; }
+.estate-calc .pos { color: var(--text-success) !important; }
+.estate-calc .neg { color: var(--text-danger) !important; }
+
+.estate-calc .msg { margin: 12px 0 0; font-size: 13px; color: var(--text-secondary); }
+.estate-calc .msg.warn { color: var(--text-danger); }
+.estate-calc .note { margin: 6px 0 0; font-size: 12px; color: var(--text-muted); }
+.estate-calc .formula {
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  background: var(--surface-1);
+  border-radius: var(--radius);
+}
+
+/* ---------- tables ---------- */
+.estate-calc .tbl-wrap { overflow-x: auto; margin-top: 10px; }
+.estate-calc table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.estate-calc th,
+.estate-calc td {
+  padding: 8px 10px;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+.estate-calc th { font-weight: 500; color: var(--text-secondary); background: var(--surface-1); }
+.estate-calc th:first-child,
+.estate-calc td:first-child { text-align: left; }
+.estate-calc td.cur { background: var(--accent-soft); font-weight: 600; }
+.estate-calc tr.cur-row td:first-child { font-weight: 600; color: var(--accent); }
+
+/* ---------- bars & strip ---------- */
+.estate-calc .bars { margin-top: 1rem; display: grid; gap: 8px; }
+.estate-calc .bar-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 90px; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+.estate-calc .bar-track { height: 22px; background: var(--surface-1); border-radius: 6px; overflow: hidden; }
+.estate-calc .bar-fill { height: 100%; border-radius: 6px; background: #afa9ec; }
+.estate-calc .bar-fill.final { background: #5dcaa5; }
+.estate-calc .bar-val { text-align: right; color: var(--text-primary); font-weight: 500; }
+
+.estate-calc .strip { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; margin-top: 12px; }
+.estate-calc .strip i {
+  display: block;
+  height: 30px;
+  border-radius: 5px;
+  background: #9fe1cb;
+}
+.estate-calc .strip i.empty { background: #f7c1c1; }
+.estate-calc .strip i.part { background: linear-gradient(90deg, #f7c1c1 var(--p), #9fe1cb var(--p)); }
+.estate-calc .strip-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px; font-size: 12px; color: var(--text-secondary); }
+.estate-calc .strip-legend span::before { content: ''; display: inline-block; width: 10px; height: 10px; margin-right: 5px; border-radius: 3px; background: #9fe1cb; vertical-align: -1px; }
+.estate-calc .strip-legend span.v::before { background: #f7c1c1; }
+
+@media (max-width: 520px) {
+  .estate-calc { padding: 16px 12px; }
+  .estate-calc .field-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; }
+  .estate-calc .field-row label { grid-column: 1 / -1; }
+  .estate-calc .field-row.select-row { grid-template-columns: minmax(0, 1fr); }
+  .estate-calc .hint { padding-left: 0; }
+  .estate-calc .bar-row { grid-template-columns: 78px minmax(0, 1fr) 76px; }
+}

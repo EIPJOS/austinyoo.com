@@ -4,6 +4,11 @@ import { useLang } from '../i18n/index.js';
 import CommercialLoanCalculator from '../components/tools/CommercialLoanCalculator.jsx';
 
 // Heavy tools (charting libs) are lazy-loaded so they don't slow down the rest of the page.
+const InvestmentYieldCalculator = lazy(() => import('../components/tools/estate/InvestmentYieldCalculator.jsx'));
+const LoanLimitCalculator = lazy(() => import('../components/tools/estate/LoanLimitCalculator.jsx'));
+const FairPriceCalculator = lazy(() => import('../components/tools/estate/FairPriceCalculator.jsx'));
+const StressTestCalculator = lazy(() => import('../components/tools/estate/StressTestCalculator.jsx'));
+const BreakEvenVacancyCalculator = lazy(() => import('../components/tools/estate/BreakEvenVacancyCalculator.jsx'));
 const CompoundGrowthCalculator = lazy(() => import('../components/tools/CompoundGrowthCalculator.jsx'));
 const PortfolioAllocationDashboard = lazy(() => import('../components/tools/PortfolioAllocationDashboard.jsx'));
 const LoanPaymentCalculator = lazy(() => import('../components/tools/LoanPaymentCalculator.jsx'));
@@ -25,6 +30,77 @@ const tools = [
       nav: '상가 대출',
       title: '상가 대출 계산기',
       description: '상가 가격, 대출 비율, 임대 수익률, 금리, 공실을 바꿔가며 매달 남는 돈을 계산해보세요.',
+    },
+  },
+  {
+    id: 'investment-yield',
+    Component: InvestmentYieldCalculator,
+    en: {
+      nav: 'Cash Return',
+      title: 'Cash Invested & Return Calculator',
+      description:
+        'Your real cash outlay after the loan and the tenant deposit, and the yearly return on that cash (Korean won).',
+    },
+    ko: {
+      nav: '실투자 수익률',
+      title: '실투자금·수익률 계산기',
+      description: '대출과 임차 보증금을 뺀 실제 내 돈이 얼마인지, 그 돈으로 1년에 몇 % 버는지 계산해 보세요.',
+    },
+  },
+  {
+    id: 'loan-limit',
+    Component: LoanLimitCalculator,
+    en: {
+      nav: 'Loan Limit',
+      title: 'Loan Limit Calculator (LTV / RTI)',
+      description: 'The most a bank will lend: the smaller of the LTV limit and the RTI limit.',
+    },
+    ko: {
+      nav: '대출 한도',
+      title: '대출 한도 계산기 (LTV / RTI)',
+      description: '은행에서 실제로 빌릴 수 있는 돈 — LTV 한도와 RTI 한도 중 작은 값을 구해요.',
+    },
+  },
+  {
+    id: 'fair-price',
+    Component: FairPriceCalculator,
+    en: {
+      nav: 'Fair Price',
+      title: 'Fair Purchase Price Calculator',
+      description: 'Work backwards from the rent and your target yield to the highest price worth paying.',
+    },
+    ko: {
+      nav: '적정 매입가',
+      title: '적정 매입가 역산 계산기',
+      description: '월세와 목표 수익률로부터 얼마 이하로 사야 하는지 거꾸로 계산해요.',
+    },
+  },
+  {
+    id: 'stress-test',
+    Component: StressTestCalculator,
+    en: {
+      nav: 'Stress Test',
+      title: 'Rate & Vacancy Stress Test',
+      description: 'How much you would have to cover each month if rates rise or the unit sits empty.',
+    },
+    ko: {
+      nav: '스트레스 테스트',
+      title: '금리·공실 스트레스 테스트',
+      description: '금리가 오르거나 공실이 나면 매달 얼마를 메워야 하는지 확인해요.',
+    },
+  },
+  {
+    id: 'breakeven-vacancy',
+    Component: BreakEvenVacancyCalculator,
+    en: {
+      nav: 'Break-even',
+      title: 'Break-even Vacancy Calculator',
+      description: 'How many months a year the unit can stay empty before cash flow turns negative.',
+    },
+    ko: {
+      nav: '손익분기 공실',
+      title: '손익분기 공실 계산기',
+      description: '1년에 몇 개월까지 비어도 적자가 나지 않는지 계산해요.',
     },
   },
   {
@@ -75,7 +151,7 @@ const copy = {
   en: {
     seoTitle: 'Tools',
     seoDescription:
-      'Interactive calculators and simulators by Austin Yoo, including a commercial property loan calculator, an investment compound growth calculator, a portfolio allocation dashboard, and a loan payment calculator.',
+      'Interactive calculators and simulators by Austin Yoo, including commercial property calculators (loan, cash return, loan limit, fair price, stress test, break-even vacancy), an investment compound growth calculator, a portfolio allocation dashboard, and a loan payment calculator.',
     title: 'Tools',
     intro: "Calculators and simulators I've built — play with the inputs and see the numbers update live.",
     contents: 'Contents',
@@ -84,7 +160,7 @@ const copy = {
   ko: {
     seoTitle: '도구',
     seoDescription:
-      'Austin Yoo가 만든 인터랙티브 계산기와 시뮬레이터 — 상가 대출 계산기, 투자 복리 성장 계산기, 포트폴리오 자산 배분 대시보드, 대출 계산기.',
+      'Austin Yoo가 만든 인터랙티브 계산기와 시뮬레이터 — 상가 투자 계산기(대출, 실투자 수익률, 대출 한도, 적정 매입가, 스트레스 테스트, 손익분기 공실), 투자 복리 성장 계산기, 포트폴리오 자산 배분 대시보드, 대출 계산기.',
     title: '도구',
     intro: '직접 만든 계산기와 시뮬레이터입니다. 값을 바꿔 보면 결과가 실시간으로 업데이트돼요.',
     contents: '목차',
