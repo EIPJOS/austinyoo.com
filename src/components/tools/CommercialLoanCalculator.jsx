@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLang } from '../../i18n/index.js';
 import './loanCalc.css';
 
@@ -33,8 +33,11 @@ const text = {
     repayment: '상환 방식',
     interestOnly: '이자만 내기',
     amortized: '원금까지 20년 상환',
-    priceDisplay: (p) => `${p}억`,
-    monthsDisplay: (v) => `${v}개월`,
+    units: {
+      price: { suffix: '억', scale: 1, min: 0.01, max: 200 },
+      percent: { suffix: '%', scale: 1 },
+      months: { suffix: '개월', scale: 1, min: 0, max: 12 },
+    },
     barTitle: '월세 한 달치가 어디로 가나',
     barInterest: '이자',
     barPrincipal: '원금',
@@ -73,8 +76,12 @@ const text = {
     repayment: 'Repayment',
     interestOnly: 'Interest only',
     amortized: 'Principal + interest, 20 years',
-    priceDisplay: (p) => `₩${(p * 100).toLocaleString('en-US')}M`,
-    monthsDisplay: (v) => `${v} mo`,
+    // internally the price is stored in 억 (100M KRW); English users type millions of won
+    units: {
+      price: { prefix: '₩', suffix: 'M', scale: 100, min: 1, max: 20000 },
+      percent: { suffix: '%', scale: 1 },
+      months: { suffix: 'mo', scale: 1, min: 0, max: 12 },
+    },
     barTitle: 'Where one month of rent goes',
     barInterest: 'Interest',
     barPrincipal: 'Principal',
@@ -97,7 +104,52 @@ const text = {
   },
 };
 
-function Slider({ id, label, min, max, step, value, onChange, display }) {
+const round2 = (n) => Math.round(n * 100) / 100;
+
+/**
+ * Text input with up to 2 decimals, kept in sync with its slider.
+ * `scale` converts between the stored value and what the user sees (e.g. 억 -> ₩M).
+ * Values typed outside the slider's range are allowed up to `min`/`max`.
+ */
+function NumberField({ label, value, onChange, unit, min, max, resetKey }) {
+  const { scale = 1, prefix = '', suffix = '' } = unit;
+  const [draft, setDraft] = useState(null); // null = not editing, show the live value
+
+  // Moving the slider always wins over a half-typed value (on touch devices the text
+  // field may keep focus while the slider is dragged).
+  useEffect(() => {
+    setDraft(null);
+  }, [resetKey]);
+  const shown = draft ?? String(round2(value * scale));
+
+  const handleChange = (e) => {
+    const v = e.target.value;
+    if (!/^\d{0,6}(\.\d{0,2})?$/.test(v)) return; // digits with at most 2 decimals
+    setDraft(v);
+    const n = parseFloat(v);
+    if (!Number.isNaN(n)) onChange(Math.min(max, Math.max(min, n)) / scale);
+  };
+
+  return (
+    <span className="num">
+      <em className="pre">{prefix}</em>
+      <input
+        type="text"
+        inputMode="decimal"
+        aria-label={label}
+        value={shown}
+        onChange={handleChange}
+        onFocus={(e) => e.target.select()}
+        onBlur={() => setDraft(null)}
+      />
+      <em className="suf">{suffix}</em>
+    </span>
+  );
+}
+
+function Slider({ id, label, min, max, step, value, onChange, unit, inputMin, inputMax }) {
+  const scale = unit.scale || 1;
+  const [dragTick, setDragTick] = useState(0);
   return (
     <div className="row">
       <label htmlFor={id}>{label}</label>
@@ -108,9 +160,20 @@ function Slider({ id, label, min, max, step, value, onChange, display }) {
         max={max}
         step={step}
         value={value}
-        onChange={(e) => onChange(+e.target.value)}
+        onChange={(e) => {
+          setDragTick((n) => n + 1);
+          onChange(+e.target.value);
+        }}
       />
-      <span>{display}</span>
+      <NumberField
+        resetKey={dragTick}
+        label={label}
+        value={value}
+        onChange={onChange}
+        unit={unit}
+        min={inputMin ?? unit.min ?? min * scale}
+        max={inputMax ?? unit.max ?? max * scale}
+      />
     </div>
   );
 }
@@ -220,11 +283,11 @@ export default function CommercialLoanCalculator() {
       </svg>
 
       <div style={{ marginTop: '1rem' }}>
-        <Slider id="p" label={t.price} min={1} max={20} step={0.5} value={price} onChange={setPrice} display={t.priceDisplay(price)} />
-        <Slider id="l" label={t.ltv} min={0} max={80} step={5} value={ltv} onChange={setLtv} display={ltv + '%'} />
-        <Slider id="y" label={t.yield} min={2} max={9} step={0.1} value={yieldPct} onChange={setYieldPct} display={yieldPct.toFixed(1) + '%'} />
-        <Slider id="r" label={t.rate} min={2} max={8} step={0.1} value={rate} onChange={setRate} display={rate.toFixed(1) + '%'} />
-        <Slider id="v" label={t.vacancy} min={0} max={6} step={1} value={vacancy} onChange={setVacancy} display={t.monthsDisplay(vacancy)} />
+        <Slider id="p" label={t.price} min={1} max={20} step={0.5} value={price} onChange={setPrice} unit={t.units.price} />
+        <Slider id="l" label={t.ltv} min={0} max={80} step={5} value={ltv} onChange={setLtv} unit={t.units.percent} inputMin={0} inputMax={100} />
+        <Slider id="y" label={t.yield} min={2} max={9} step={0.1} value={yieldPct} onChange={setYieldPct} unit={t.units.percent} inputMin={0} inputMax={30} />
+        <Slider id="r" label={t.rate} min={2} max={8} step={0.1} value={rate} onChange={setRate} unit={t.units.percent} inputMin={0} inputMax={30} />
+        <Slider id="v" label={t.vacancy} min={0} max={6} step={1} value={vacancy} onChange={setVacancy} unit={t.units.months} />
         <div className="row">
           <label htmlFor="m">{t.repayment}</label>
           <select id="m" style={{ flex: 1 }} value={mode} onChange={(e) => setMode(e.target.value)}>
