@@ -63,7 +63,7 @@
     "description": "Interactive interior-tour website: pick a floor on the building, open its floor plan, and step into each room in five different interior styles.",
     "tech": ["HTML", "CSS", "JavaScript", "SVG", "Vercel"],
     "status": "Live",
-    "highlight": "Same floor plan, five moods — with a side-by-side style compare view",
+    "highlight": "Same floor plan, five moods, with a side-by-side style compare view",
     "ko": {
       "description": "건물에서 층을 고르면 평면도가 열리고, 방마다 다섯 가지 인테리어 스타일로 둘러볼 수 있는 인터랙티브 인테리어 투어 웹사이트입니다.",
       "highlight": "같은 평면에서 다섯 가지 분위기를 나란히 비교"

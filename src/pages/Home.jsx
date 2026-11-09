@@ -12,7 +12,7 @@ const copy = {
       'Austin Yoo is a BI Analyst, Automation Developer, and Full-Stack Developer turning business data into automated pipelines and production-grade web platforms.',
     jobTitle: 'BI Analyst, Automation Developer, Full-Stack Developer',
     intro:
-      'I turn business data into clear, actionable insight, automate the workflows that keep it flowing, and build the full-stack platforms that put it in front of the people who need it — end to end, from data source to production.',
+      'I turn business data into clear, actionable insight, automate the workflows that keep it flowing, and build the full-stack platforms that put it in front of the people who need it, end to end, from data source to production.',
     resume: 'View Full Resume',
     projects: 'Explore Projects',
     quote: 'Request a Quote',

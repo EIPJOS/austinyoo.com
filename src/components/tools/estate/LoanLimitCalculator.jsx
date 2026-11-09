@@ -4,6 +4,7 @@ import { useEstate } from './estateUtils.js';
 
 const text = {
   ko: {
+    na: '해당 없음',
     appraisal: '감정가',
     appraisalHint: '은행 감정평가액 기준이에요. 매매가와 다를 수 있어요.',
     ltv: '적용 LTV',
@@ -31,6 +32,7 @@ const text = {
     note: '단순 시뮬레이션이에요. 실제 한도는 은행, 지역, 상품, 차주 DSR, 최우선변제 소액임차보증금 공제 등에 따라 달라요.',
   },
   en: {
+    na: 'N/A',
     appraisal: 'Appraised value',
     appraisalHint: "Based on the bank's appraisal, which can differ from the purchase price.",
     ltv: 'LTV applied',
@@ -122,7 +124,7 @@ export default function LoanLimitCalculator() {
         <Card label={t.cNeedRent} value={fmt.money(needRent)} />
         <Card
           label={t.cRtiAtLtv}
-          value={Number.isFinite(rtiAtLtv) ? fmt.times(rtiAtLtv) : '—'}
+          value={Number.isFinite(rtiAtLtv) ? fmt.times(rtiAtLtv) : t.na}
           tone={Number.isFinite(rtiAtLtv) && rtiAtLtv < rti ? 'neg' : ''}
         />
       </div>

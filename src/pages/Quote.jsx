@@ -11,7 +11,7 @@ const copy = {
     title: 'Get a Quote',
     intro: 'Simple, transparent pricing for websites and the automated data infrastructure behind them.',
     pitch:
-      'A professional website is one of the highest-leverage investments a business can make — it builds trust with new customers, shows up when people search for you, and turns visitors into leads and sales around the clock, not just during business hours.',
+      'A professional website is one of the highest-leverage investments a business can make. It builds trust with new customers, shows up when people search for you, and turns visitors into leads and sales around the clock, not just during business hours.',
     cta: 'Request a Quote ↓',
     proofHeading: 'Proven in Production',
     proofPoints: [
@@ -24,7 +24,7 @@ const copy = {
         stat: '3×/day',
         label: 'Fully automated publishing',
         detail:
-          'USGridExplorer generates and publishes AI-written briefings on a GitHub Actions schedule — no manual work.',
+          'USGridExplorer generates and publishes AI-written briefings on a GitHub Actions schedule, with no manual work.',
       },
       {
         stat: 'Live',
@@ -77,7 +77,7 @@ const copy = {
       placeholder: 'e.g. what your business does, what you want the site to do, any deadlines',
       sending: 'Sending…',
       submit: 'Request Free Quote →',
-      sentTitle: 'Quote request sent — thanks!',
+      sentTitle: 'Quote request sent. Thanks!',
       sentBody: "I'll review your details and follow up within 1 business day.",
       sendAnother: 'Send another request',
       errorGeneric: 'Something went wrong. Please try again.',
@@ -104,7 +104,7 @@ const copy = {
         stat: '하루 3회',
         label: '완전 자동 발행',
         detail:
-          'USGridExplorer는 GitHub Actions 일정에 따라 AI가 작성한 브리핑을 자동으로 생성·발행합니다 — 수작업이 필요 없습니다.',
+          'USGridExplorer는 GitHub Actions 일정에 따라 AI가 작성한 브리핑을 자동으로 생성·발행합니다. 수작업이 필요 없습니다.',
       },
       {
         stat: '실시간',
@@ -251,7 +251,7 @@ function QuoteForm({ t }) {
       <h2 className="text-lg font-semibold text-navy">{t.title}</h2>
       <p className="mt-1 text-sm text-slate">{t.subtitle}</p>
 
-      {/* Honeypot field — hidden from real users, filled by bots */}
+      {/* Honeypot field: hidden from real users, filled by bots */}
       <input
         type="text"
         name="company"

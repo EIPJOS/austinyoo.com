@@ -13,7 +13,7 @@ const CompoundGrowthCalculator = lazy(() => import('../components/tools/Compound
 const PortfolioAllocationDashboard = lazy(() => import('../components/tools/PortfolioAllocationDashboard.jsx'));
 const LoanPaymentCalculator = lazy(() => import('../components/tools/LoanPaymentCalculator.jsx'));
 
-// Add new calculators/simulators here — each renders as its own section
+// Add new calculators/simulators here: each renders as its own section
 // and automatically shows up in the table of contents.
 // `nav` is the short label used in the compact (mobile) contents bar.
 const tools = [
@@ -58,7 +58,7 @@ const tools = [
     ko: {
       nav: '대출 한도',
       title: '대출 한도 계산기 (LTV / RTI)',
-      description: '은행에서 실제로 빌릴 수 있는 돈 — LTV 한도와 RTI 한도 중 작은 값을 구해요.',
+      description: '은행에서 실제로 빌릴 수 있는 돈을 계산해요. LTV 한도와 RTI 한도 중 작은 값이에요.',
     },
   },
   {
@@ -153,14 +153,14 @@ const copy = {
     seoDescription:
       'Interactive calculators and simulators by Austin Yoo, including commercial property calculators (loan, cash return, loan limit, fair price, stress test, break-even vacancy), an investment compound growth calculator, a portfolio allocation dashboard, and a loan payment calculator.',
     title: 'Tools',
-    intro: "Calculators and simulators I've built — play with the inputs and see the numbers update live.",
+    intro: "Calculators and simulators I've built. Play with the inputs and see the numbers update live.",
     contents: 'Contents',
     loading: 'Loading…',
   },
   ko: {
     seoTitle: '도구',
     seoDescription:
-      'Austin Yoo가 만든 인터랙티브 계산기와 시뮬레이터 — 상가 투자 계산기(대출, 실투자 수익률, 대출 한도, 적정 매입가, 스트레스 테스트, 손익분기 공실), 투자 복리 성장 계산기, 포트폴리오 자산 배분 대시보드, 대출 계산기.',
+      'Austin Yoo가 만든 인터랙티브 계산기와 시뮬레이터: 상가 투자 계산기(대출, 실투자 수익률, 대출 한도, 적정 매입가, 스트레스 테스트, 손익분기 공실), 투자 복리 성장 계산기, 포트폴리오 자산 배분 대시보드, 대출 계산기.',
     title: '도구',
     intro: '직접 만든 계산기와 시뮬레이터입니다. 값을 바꿔 보면 결과가 실시간으로 업데이트돼요.',
     contents: '목차',

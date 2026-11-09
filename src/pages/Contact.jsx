@@ -5,10 +5,10 @@ import { useLang } from '../i18n/index.js';
 const copy = {
   en: {
     seoTitle: 'Contact',
-    seoDescription: 'Get in touch with Austin Yoo — send a message directly or connect on LinkedIn.',
+    seoDescription: 'Get in touch with Austin Yoo. Send a message directly or connect on LinkedIn.',
     title: 'Get in Touch',
     intro: 'Interested in collaborating, hiring, or just want to talk about automation and data pipelines? Send a message below.',
-    sentTitle: 'Message sent — thanks for reaching out!',
+    sentTitle: 'Message sent. Thanks for reaching out!',
     sentBody: "I'll get back to you soon.",
     sendAnother: 'Send another message',
     name: 'Name',
@@ -107,7 +107,7 @@ export default function Contact() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-10 text-left">
-            {/* Honeypot field — hidden from real users, filled by bots */}
+            {/* Honeypot field: hidden from real users, filled by bots */}
             <input
               type="text"
               name="company"

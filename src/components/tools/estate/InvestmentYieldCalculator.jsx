@@ -4,6 +4,7 @@ import { useEstate } from './estateUtils.js';
 
 const text = {
   ko: {
+    na: '해당 없음',
     price: '매매가',
     deposit: '임차 보증금',
     depositHint: '세입자에게 받는 보증금만큼 내 돈이 덜 들어가요. (계약이 끝나면 돌려줘야 해요)',
@@ -31,6 +32,7 @@ const text = {
     note: '이자만 내는 대출 기준이며, 재산세·관리비·수선비·소득세는 빠진 단순 계산이에요. 건물분 부가세는 일반과세자 등록 시 환급되지만 환급 전까지는 현금이 더 필요해요.',
   },
   en: {
+    na: 'N/A',
     price: 'Purchase price',
     deposit: 'Tenant deposit',
     depositHint: "The tenant's deposit means less of your own cash goes in. (It must be returned when the lease ends.)",
@@ -105,7 +107,7 @@ export default function InvestmentYieldCalculator() {
         <Card
           hl
           label={t.cYield}
-          value={real === null ? '—' : fmt.pct(real)}
+          value={real === null ? t.na : fmt.pct(real)}
           sub={t.cYieldSub}
           tone={real !== null && real < 0 ? 'neg' : ''}
         />
@@ -117,8 +119,8 @@ export default function InvestmentYieldCalculator() {
         <>
           <div className="group-title">{t.compareTitle}</div>
           <div className="cards" style={{ marginTop: 6 }}>
-            <Card label={t.surface} value={surface === null ? '—' : fmt.pct(surface)} sub={t.surfaceSub} />
-            <Card label={t.noDeposit} value={noDeposit === null ? '—' : fmt.pct(noDeposit)} />
+            <Card label={t.surface} value={surface === null ? t.na : fmt.pct(surface)} sub={t.surfaceSub} />
+            <Card label={t.noDeposit} value={noDeposit === null ? t.na : fmt.pct(noDeposit)} />
           </div>
           {effect !== null && (
             <p className="msg">

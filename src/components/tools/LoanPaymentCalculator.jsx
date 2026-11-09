@@ -5,6 +5,7 @@ import './loanPaymentCalc.css';
 const text = {
   en: {
     heading: 'Loan Calculator',
+    na: 'N/A',
     amount: 'Loan amount',
     term: 'Loan term',
     months: 'Months',
@@ -32,6 +33,7 @@ const text = {
   },
   ko: {
     heading: '대출 계산기',
+    na: '해당 없음',
     amount: '대출 금액',
     term: '대출 기간',
     months: '개월',
@@ -222,24 +224,24 @@ export default function LoanPaymentCalculator() {
           <div className="result-card">
             <div>
               <h4>{t.monthly}</h4>
-              <div className="payment">{result ? money(result.monthlyPayment) : '—'}</div>
+              <div className="payment">{result ? money(result.monthlyPayment) : t.na}</div>
 
               <div className="stats">
                 <div>
                   <div className="stat-title">{t.principalPaid}</div>
-                  <div className="stat-value">{result ? money(result.totalPrincipal) : '—'}</div>
+                  <div className="stat-value">{result ? money(result.totalPrincipal) : t.na}</div>
                 </div>
                 <div>
                   <div className="stat-title">{t.totalCost}</div>
-                  <div className="stat-value">{result ? money(result.totalCost) : '—'}</div>
+                  <div className="stat-value">{result ? money(result.totalCost) : t.na}</div>
                 </div>
                 <div>
                   <div className="stat-title">{t.interestPaid}</div>
-                  <div className="stat-value">{result ? money(result.totalInterest) : '—'}</div>
+                  <div className="stat-value">{result ? money(result.totalInterest) : t.na}</div>
                 </div>
                 <div>
                   <div className="stat-title">{t.payoff}</div>
-                  <div className="stat-value">{result ? result.payoffText : '—'}</div>
+                  <div className="stat-value">{result ? result.payoffText : t.na}</div>
                 </div>
               </div>
             </div>
@@ -256,7 +258,7 @@ export default function LoanPaymentCalculator() {
           <div className="schedule-header">
             <h3>{t.schedule}</h3>
             <div>
-              <strong>{t.lastPayment}</strong> <span>{result ? result.payoffText : '—'}</span>
+              <strong>{t.lastPayment}</strong> <span>{result ? result.payoffText : t.na}</span>
             </div>
           </div>
 

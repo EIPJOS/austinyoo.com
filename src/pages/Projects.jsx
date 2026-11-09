@@ -8,17 +8,17 @@ const copy = {
     title: 'Projects',
     seoDescription:
       'A collection of automation, data pipeline, and AI-driven products built by Austin Yoo, including USGridExplorer, JNB Global Customs, and CustomsMate KR.',
-    intro: 'Automation, data pipelines, and AI-integrated platforms — shipped and in progress.',
+    intro: 'Automation, data pipelines, and AI-integrated platforms, both shipped and in progress.',
     other: 'Other Projects',
-    fable: 'Fable modding — game modification and tooling',
+    fable: 'Fable modding: game modification and tooling',
   },
   ko: {
     title: '프로젝트',
     seoDescription:
-      'Austin Yoo가 만든 자동화, 데이터 파이프라인, AI 기반 서비스 모음 — USGridExplorer, JNB Global Customs, CustomsMate KR 등.',
-    intro: '자동화, 데이터 파이프라인, AI 연동 플랫폼 — 운영 중인 프로젝트와 진행 중인 프로젝트를 소개합니다.',
+      'Austin Yoo가 만든 자동화, 데이터 파이프라인, AI 기반 서비스 모음: USGridExplorer, JNB Global Customs, CustomsMate KR 등.',
+    intro: '자동화, 데이터 파이프라인, AI 연동 플랫폼. 운영 중인 프로젝트와 진행 중인 프로젝트를 소개합니다.',
     other: '기타 프로젝트',
-    fable: 'Fable 모딩 — 게임 모드 제작 및 툴링',
+    fable: 'Fable 모딩: 게임 모드 제작 및 툴링',
   },
 };
 

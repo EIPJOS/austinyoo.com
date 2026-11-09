@@ -4,6 +4,7 @@ import { monthlyPayment, useEstate } from './estateUtils.js';
 
 const text = {
   ko: {
+    na: '해당 없음',
     rent: '월세',
     loan: '대출금',
     rate: '대출 금리',
@@ -35,6 +36,7 @@ const text = {
     note: '월 지출 = 대출 상환액 + 기타 비용. 세금과 보증금 반환은 반영하지 않았어요.',
   },
   en: {
+    na: 'N/A',
     rent: 'Monthly rent',
     loan: 'Loan amount',
     rate: 'Loan interest rate',
@@ -113,8 +115,8 @@ export default function BreakEvenVacancyCalculator() {
       />
 
       <div className="cards">
-        <Card hl label={t.cBreakEven} value={rent > 0 ? monthsLabel : '—'} sub={t.cBreakEvenSub} tone={cur.months <= 0 ? 'neg' : ''} />
-        <Card label={t.cRate} value={rent > 0 ? fmt.pct((cur.months / 12) * 100) : '—'} />
+        <Card hl label={t.cBreakEven} value={rent > 0 ? monthsLabel : t.na} sub={t.cBreakEvenSub} tone={cur.months <= 0 ? 'neg' : ''} />
+        <Card label={t.cRate} value={rent > 0 ? fmt.pct((cur.months / 12) * 100) : t.na} />
         <Card label={t.cOutgo} value={fmt.money(cur.outgo)} sub={t.cOutgoSub} />
         <Card label={t.cCushion} value={fmt.money(cushion)} tone={cushion < 0 ? 'neg' : 'pos'} />
         <Card label={t.perVacant} value={fmt.money(rent)} />

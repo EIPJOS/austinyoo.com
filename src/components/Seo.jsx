@@ -49,7 +49,7 @@ export default function Seo({ title, description, path = '/', jsonLd }) {
   const koUrl = `${SITE_URL}${localePath('ko', path)}`;
   const fullTitle = title
     ? `${title} | Austin Yoo`
-    : 'Austin Yoo — BI Analyst, Automation Developer, Full-Stack Developer';
+    : 'Austin Yoo | BI Analyst, Automation Developer, Full-Stack Developer';
 
   useAdditiveHeadTags(
     [
