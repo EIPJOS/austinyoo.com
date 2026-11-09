@@ -54,5 +54,19 @@
       "description": "북부 버지니아의 데이터센터 개발 허가 신청 현황을 추적해 상업용 부동산 중개인, 벤더 영업팀, 투자자에게 알려주는 구독형 알림 서비스입니다.",
       "highlight": "기존 usgridexplorer.com 방문자를 유통 채널로 활용"
     }
+  },
+  {
+    "slug": "the-archive-tour",
+    "name": "THE ARCHIVE Interior Tour",
+    "url": "https://the-archive-tour.vercel.app/",
+    "image": "/projects/the-archive-tour.jpg",
+    "description": "Interactive interior-tour website: pick a floor on the building, open its floor plan, and step into each room in five different interior styles.",
+    "tech": ["HTML", "CSS", "JavaScript", "SVG", "Vercel"],
+    "status": "Live",
+    "highlight": "Same floor plan, five moods — with a side-by-side style compare view",
+    "ko": {
+      "description": "건물에서 층을 고르면 평면도가 열리고, 방마다 다섯 가지 인테리어 스타일로 둘러볼 수 있는 인터랙티브 인테리어 투어 웹사이트입니다.",
+      "highlight": "같은 평면에서 다섯 가지 분위기를 나란히 비교"
+    }
   }
 ]
